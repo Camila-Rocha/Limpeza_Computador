@@ -1,0 +1,17 @@
+C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\bin\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.exe
+C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\bin\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.deps.json
+C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\bin\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.runtimeconfig.json
+C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\bin\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.dll
+C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\bin\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.pdb
+C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.JanelaLimpezaPC.resources
+C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.csproj.GenerateResource.cache
+C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.AssemblyInfoInputs.cache
+C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.AssemblyInfo.cs
+C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.csproj.CoreCompileInputs.cache
+C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.sourcelink.json
+C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.dll
+C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\refint\ProjetoLimpezaDePCRefatoracao.dll
+C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.pdb
+C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.genruntimeconfig.cache
+C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ref\ProjetoLimpezaDePCRefatoracao.dll
