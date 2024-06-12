@@ -72,7 +72,6 @@
             // 
             // btnVoltar
             // 
-            btnVoltar.FlatStyle = FlatStyle.Flat;
             btnVoltar.Location = new Point(41, 18);
             btnVoltar.Name = "btnVoltar";
             btnVoltar.Size = new Size(115, 40);
@@ -83,7 +82,6 @@
             // 
             // btnContinuar
             // 
-            btnContinuar.FlatStyle = FlatStyle.Flat;
             btnContinuar.Location = new Point(522, 18);
             btnContinuar.Name = "btnContinuar";
             btnContinuar.Size = new Size(115, 40);
@@ -101,7 +99,6 @@
             panelHeader.Name = "panelHeader";
             panelHeader.Size = new Size(680, 73);
             panelHeader.TabIndex = 3;
-            panelHeader.Paint += panelHeader_Paint;
             // 
             // JanelaLimpezaPC
             // 
