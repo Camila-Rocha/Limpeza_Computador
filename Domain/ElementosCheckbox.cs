@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ProjetoLimpezaDePCRefatoracao.Domain
 {
@@ -10,20 +13,23 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
     {
         public string TextoCheckBox { get; set; } = string.Empty;
         public string TextoInformacao { get; set; } = string.Empty;
-        public LinkLabel LinkInformacao { get; } = new LinkLabel()
+        public PictureBox ImagemInformacao { get; } = new PictureBox()
         {
-            Text = "Saiba mais"
+            Image = Properties.Resources.ico_info,
+            Size = new Size(20, 20),
+            Location = new Point(0, 0),
+            SizeMode = PictureBoxSizeMode.Zoom,
+
         };
-
-        //ToolTip toolTip1 = new ToolTip();
-        //toolTip1.AutoPopDelay = 5000; // Duração da exibição
-        //toolTip1.InitialDelay = 1000; // Atraso inicial antes de exibir a dica
-        //toolTip1.ReshowDelay = 500; // Atraso antes de exibir novamente após sumir
-        //toolTip1.ShowAlways = true;
-
-        //toolTip1.SetToolTip(LinkInformacao, TextoInformacao);
-
-        public List<ElementosCheckbox> CriarLinkLabels(string[] nomesCheckbox, string[] textosInfo)
+        public System.Windows.Forms.ToolTip ToolTipImagemInformacao { get; set; } = new System.Windows.Forms.ToolTip()
+        {
+            AutoPopDelay = 5000,// Duração da exibição
+            InitialDelay = 500, // Atraso inicial antes de exibir a dica
+            ReshowDelay = 500, // Atraso antes de exibir novamente após sumir
+            ShowAlways = true,
+        };
+        
+    public List<ElementosCheckbox> CriarLinkLabels(string[] nomesCheckbox, string[] textosInfo)
         {
             var list = new List<ElementosCheckbox>();
 
@@ -33,7 +39,7 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
                 {
                     TextoCheckBox = nomesCheckbox[i],
                     TextoInformacao = textosInfo[i]
-                });
+                });               
             }
 
             return list;

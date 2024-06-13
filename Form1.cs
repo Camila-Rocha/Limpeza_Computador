@@ -1,7 +1,11 @@
 using ProjetoLimpezaDePCRefatoracao.Domain;
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
+using CheckBox = System.Windows.Forms.CheckBox;
+using RadioButton = System.Windows.Forms.RadioButton;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace ProjetoLimpezaDePCRefatoracao
@@ -15,15 +19,19 @@ namespace ProjetoLimpezaDePCRefatoracao
         Panel panel_3;
         List<Panel> ListaPanelCheckbox;
         List<Panel> ListaPanelInfo;
-
+        private List<string> ListaTiposLimpezaDeDisco =
+            [
+                "Limpeza Padrão",
+                "Limpeza Personalizada",
+                "Usar Última Limpeza Personalizada Realizada (Se houver)"
+            ];
+        List<RadioButton> ListaRadioButtons;
         public JanelaLimpezaPC()
         {
-
             ListaPanelCheckbox = new List<Panel>();
             ListaPanelInfo = new List<Panel>();
             InitializeComponent();
             CriarPanelsBody();
-            CriarCheckboxs();           
             btnVoltar.Enabled = false;
         }
 
@@ -31,10 +39,12 @@ namespace ProjetoLimpezaDePCRefatoracao
         {
             HelperIdentificadorComponenteAtivo(true);
         }
+
         private void btnVoltar_Click(object sender, EventArgs e)
         {
             HelperIdentificadorComponenteAtivo(false);
         }
+
         private List<ElementosCheckbox> CriarCheckboxs()
         {
             string[] arrayNomeCheckbox =
@@ -76,11 +86,11 @@ namespace ProjetoLimpezaDePCRefatoracao
 
         private void CriarInfo(Panel panel_1)
         {
-            List<ElementosCheckbox> listaCheckBoxes = CriarPanelsCheckbox(panel_1, 5);
+            List<ElementosCheckbox> listaCheckBoxes = CriarPanelsCheckboxEPanelInfo(panel_1, 5);
 
             for (int i = 0; i < listaCheckBoxes.Count(); i++)
             {
-                ListaPanelInfo[i].Controls.Add(listaCheckBoxes[i].LinkInformacao);
+                ListaPanelInfo[i].Controls.Add(listaCheckBoxes[i].ImagemInformacao);
             }
         }
 
@@ -95,7 +105,7 @@ namespace ProjetoLimpezaDePCRefatoracao
             {
                 Size = new Size(larguraPanelBody, alturaPanelBody),
                 Location = new Point(localizacaoX, localizacaoY),
-                //BackColor = Color.Red,
+                AutoScroll = true,
                 Enabled = true,
                 Visible = true,
             };
@@ -103,11 +113,11 @@ namespace ProjetoLimpezaDePCRefatoracao
 
             CriarInfo(panel_1);
 
-             panel_2 = new Panel()
+            panel_2 = new Panel()
             {
                 Size = new Size(larguraPanelBody, alturaPanelBody),
                 Location = new Point(localizacaoX, localizacaoY),
-                //BackColor = Color.Blue,
+                AutoScroll = true,
                 Enabled = false,
                 Visible = false
             };
@@ -117,14 +127,15 @@ namespace ProjetoLimpezaDePCRefatoracao
             {
                 Size = new Size(larguraPanelBody, alturaPanelBody),
                 Location = new Point(localizacaoX, localizacaoY),
-                //BackColor = Color.Black,
+                AutoScroll = true,
                 Enabled = false,
                 Visible = false
             };
+
             this.Controls.Add(panel_3);
         }
 
-        private List<ElementosCheckbox> CriarPanelsCheckbox(Panel panelPai, int qtdPanel)
+        private List<ElementosCheckbox> CriarPanelsCheckboxEPanelInfo(Panel panelPai, int qtdPanel)
         {
             int margemBody = 20;
             int alturaPanel = 35;
@@ -136,9 +147,8 @@ namespace ProjetoLimpezaDePCRefatoracao
                 {
                     Location = new Point(margemBody, margemBody + (i * (alturaPanel + espacamento))),
                     AutoSize = true,
-                    AutoSizeMode = AutoSizeMode.GrowAndShrink
-                    //Size = new Size(500, alturaPanel),
-                    //BackColor = Color.AliceBlue,
+                    AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                    //BackColor = Color.Bisque
                 };
 
                 panelPai.Controls.Add(panelCheckbox);
@@ -146,24 +156,24 @@ namespace ProjetoLimpezaDePCRefatoracao
                 ListaPanelCheckbox.Add(panelCheckbox);
             }
 
-            List<ElementosCheckbox> qualquecoisax = CriarCheckboxs();
+            List<ElementosCheckbox> ObjetosCheckbox = CriarCheckboxs();
 
             for (int i = 0; i < qtdPanel; i++)
             {
                 Panel panelInfo = new Panel()
                 {
                     Location = new Point(margemBody + ListaPanelCheckbox[i].Width + espacamento, margemBody + (i * (alturaPanel + espacamento))),
-                    //Size = new Size(25, alturaPanel),
                     AutoSize = true,
                     AutoSizeMode = AutoSizeMode.GrowAndShrink,
-
+                    //BackColor = Color.CadetBlue
                 };
 
                 panelPai.Controls.Add(panelInfo);
                 ListaPanelInfo.Add(panelInfo);
+                ObjetosCheckbox[i].ToolTipImagemInformacao.SetToolTip(ObjetosCheckbox[i].ImagemInformacao, ObjetosCheckbox[i].TextoInformacao);
             }
 
-            return qualquecoisax;
+            return ObjetosCheckbox;
         }
 
         private void HelperIdentificadorComponenteAtivo(bool isContinuar)
@@ -210,5 +220,49 @@ namespace ProjetoLimpezaDePCRefatoracao
 
             }
         }
+
+        private void VerificaMarcacaoParaMostrarRadioBtn_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ListaPanelCheckbox[1].Controls.Count > 0 && ListaPanelCheckbox[1].Controls[0] is CheckBox checkBox)
+            {              
+                if (checkBox.Checked)
+                {
+                    AddRadioButtons();
+                }
+            }
+
+            else
+            {
+                RemoveRadioButtons();
+            }
+        }
+
+        private void AddRadioButtons()
+        {
+            ListaRadioButtons = new List<RadioButton>();
+            for (int i = 0; i < ListaRadioButtons.Count; i++)
+            {
+                RadioButton radioButton = new RadioButton
+                {
+                    Text = $"{ListaRadioButtons[i]}",
+                    AutoSize = true,
+                    Location = new Point(10,20)
+                };
+
+                ListaPanelCheckbox[1].Controls.Add(radioButton);
+                
+                ListaRadioButtons[0].Checked = true;
+            }
+        }
+
+        private void RemoveRadioButtons()
+        {
+            foreach (RadioButton radioButton in ListaRadioButtons)
+            {
+                this.Controls.Remove(radioButton);
+            }
+
+            ListaRadioButtons.Clear();
+        }        
     }
 }
