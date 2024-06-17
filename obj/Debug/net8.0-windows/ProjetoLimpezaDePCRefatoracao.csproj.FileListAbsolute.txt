@@ -16,3 +16,7 @@ C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefa
 C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.genruntimeconfig.cache
 C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ref\ProjetoLimpezaDePCRefatoracao.dll
 C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.Properties.Resources.resources
+C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\bin\Debug\net8.0-windows\System.Management.dll
+C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\bin\Debug\net8.0-windows\runtimes\win\lib\net8.0\System.Management.dll
+C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.csproj.AssemblyReference.cache
+C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoL.E4D69198.Up2Date

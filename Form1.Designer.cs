@@ -82,6 +82,7 @@
             // 
             // btnContinuar
             // 
+            btnContinuar.Enabled = false;
             btnContinuar.Location = new Point(522, 18);
             btnContinuar.Name = "btnContinuar";
             btnContinuar.Size = new Size(115, 40);

@@ -8,9 +8,10 @@ namespace ProjetoLimpezaDePCRefatoracao
 
     public partial class JanelaLimpezaPC : Form
     {
-        Panel panel_1_Body;
-        Panel panel_2;
-        Panel panel_3;
+        private Panel Panel_1_Body { get; set; }
+        private Panel Panel_2_Body { get; set; }
+        private Panel Panel_3_Body { get; set; }
+        private List<Opcao> OpcoesCriadas { get; set; } = new List<Opcao>();
 
         public JanelaLimpezaPC()
         {
@@ -19,20 +20,50 @@ namespace ProjetoLimpezaDePCRefatoracao
             btnVoltar.Enabled = false;
         }
 
-        private void btnContinuar_Click(object sender, EventArgs e)
+        private void CriarPanelsBody()
         {
-            HelperIdentificadorComponenteAtivo(true);
-        }
+            int larguraPanelBody = 550;
+            int alturaPanelBody = 530;
+            int localizacaoX = 70;
+            int localizacaoY = 81;
 
-        private void btnVoltar_Click(object sender, EventArgs e)
-        {
-            HelperIdentificadorComponenteAtivo(false);
+            Panel_1_Body = new Panel()
+            {
+                Size = new Size(larguraPanelBody, alturaPanelBody),
+                Location = new Point(localizacaoX, localizacaoY),
+                AutoScroll = true,
+                Enabled = true,
+                Visible = true,
+            };
+            this.Controls.Add(Panel_1_Body);
+
+            ComecarCriacaoOpcoesPanel_1_Body(Panel_1_Body);
+
+            Panel_2_Body = new Panel()
+            {
+                Size = new Size(larguraPanelBody, alturaPanelBody),
+                Location = new Point(localizacaoX, localizacaoY),
+                AutoScroll = true,
+                Enabled = false,
+                Visible = false
+            };
+            this.Controls.Add(Panel_2_Body);
+
+            Panel_3_Body = new Panel()
+            {
+                Size = new Size(larguraPanelBody, alturaPanelBody),
+                Location = new Point(localizacaoX, localizacaoY),
+                AutoScroll = true,
+                Enabled = false,
+                Visible = false
+            };
+
+            this.Controls.Add(Panel_3_Body);
         }
 
         private void ComecarCriacaoOpcoesPanel_1_Body(Panel panel_1_Body)
         {
             #region criacao de opcoes
-            List<Opcao> opcoesCriadas = new();
 
             Dictionary<string, string> textosOpcoes = new Dictionary<string, string>()
             {
@@ -47,84 +78,15 @@ namespace ProjetoLimpezaDePCRefatoracao
             foreach (var opcao in textosOpcoes)
             {
                 Opcao opcaoCriada = PopularAdicionarOpcao(opcao.Key, opcao.Value, posicaoOpcao);
-                opcoesCriadas.Add(opcaoCriada);
+                OpcoesCriadas.Add(opcaoCriada);
+
+                OpcoesCriadas[posicaoOpcao].CheckBox.CheckedChanged += new EventHandler(HelperCheckBoxIsChecked);
 
                 posicaoOpcao++;
-            }
-
-            opcoesCriadas[1].CheckBox.CheckedChanged += (sender, e) => HelperCheckBoxIsChecked(sender, e, opcoesCriadas);
+            }            
             #endregion
         }
 
-        private void HelperCheckBoxIsChecked(object? sender, EventArgs? e, List<Opcao> opcoesCriadas)
-        {
-            CheckBox checkBox = sender as CheckBox;
-
-            ComecarCriacaoOpcoesSecundariasPanelCheckBoxPosicao_1(opcoesCriadas, checkBox);           
-          
-        }
-        private void ComecarCriacaoOpcoesSecundariasPanelCheckBoxPosicao_1(List<Opcao> opcoesCriadas, CheckBox componenteEscutado)
-        {
-            List<string> ListaTiposLimpezaDeDisco = new List<string>()
-             {
-                "Limpeza Padrão",
-                "Limpeza Personalizada",
-                "Usar Última Limpeza Personalizada Realizada (Se houver)"
-             };
-            int margemBody = 20;
-            int espacamento = 5;
-            int alturaPanelCheckbox = 0;
-
-            Panel panelRadioButton = new()
-            {
-                Location = new Point(margemBody, opcoesCriadas[1].PanelCheckBox.Height),
-                AutoSize = true,
-                AutoSizeMode = AutoSizeMode.GrowAndShrink,
-            };
-
-            if (componenteEscutado.Checked == true)
-            {               
-                opcoesCriadas[1].PanelCheckBox.Controls.Add(panelRadioButton);
-
-                for (int i = 0; i < ListaTiposLimpezaDeDisco.Count; i++)
-                {
-                    RadioButton radioButton = new RadioButton
-                    {
-                        Text = $"{ListaTiposLimpezaDeDisco[i]}",
-                        Font = new Font(Font.FontFamily, 11),
-                        AutoSize = true,
-                        Location = new Point(0, 30 * i + espacamento)
-                    };
-                    panelRadioButton.Controls.Add(radioButton);
-                }
-
-                for (int i = 0; i < opcoesCriadas.Count(); i++)
-                {
-                    opcoesCriadas[i].PanelCheckBox.Location = new Point(margemBody, margemBody + (alturaPanelCheckbox + espacamento));
-                    opcoesCriadas[i].PanelIcone.Location = new Point(margemBody + opcoesCriadas[i].PanelCheckBox.Width + espacamento, margemBody + alturaPanelCheckbox + espacamento);
-
-                    alturaPanelCheckbox += opcoesCriadas[i].PanelCheckBox.Height;
-                }
-            }
-            else
-            {       // panel nao esta sendo apagado. Corrigir
-                panel_1_Body.Controls.Remove(panelRadioButton);
-                ListaTiposLimpezaDeDisco.Clear();
-
-                for (int i = 0; i < opcoesCriadas.Count(); i++)
-                {
-                    opcoesCriadas[i].PanelCheckBox.Location = new Point(margemBody, margemBody + (alturaPanelCheckbox + espacamento));
-                    opcoesCriadas[i].PanelIcone.Location = new Point(margemBody + opcoesCriadas[i].PanelCheckBox.Width + espacamento, margemBody + alturaPanelCheckbox + espacamento);
-
-                    alturaPanelCheckbox += opcoesCriadas[i].PanelCheckBox.Height;
-                }
-            }
-            
-        }
-        private void RemoverCriacaoOpcoesSecundariasPanelCheckBoxPosicao_1()
-        {
-
-        }
         private Opcao PopularAdicionarOpcao(string textoCheckBox, string textoInformacaoIcone, int posicaoOpcao)
         {
             int margemBody = 20;
@@ -138,7 +100,6 @@ namespace ProjetoLimpezaDePCRefatoracao
                 Location = new Point(margemBody, margemBody + (posicaoOpcao * (alturaPanel + espacamento))),
                 AutoSize = true,
                 AutoSizeMode = AutoSizeMode.GrowAndShrink
-
             };
 
             opcao.CheckBox = new CheckBox()
@@ -146,19 +107,22 @@ namespace ProjetoLimpezaDePCRefatoracao
                 Text = $"{textoCheckBox}",
                 Location = new Point(0, 0),
                 AutoSize = true,
-                Font = new Font(Font.FontFamily, 12),
-                 BackColor = Color.Plum
+                Font = new Font(Font.FontFamily, 12)
             };
 
-            panel_1_Body.Controls.Add(opcao.PanelCheckBox);
+            if (posicaoOpcao == 4)
+            {
+                opcao.CheckBox.Enabled = false;
+            }
+
+            Panel_1_Body.Controls.Add(opcao.PanelCheckBox);
             opcao.PanelCheckBox.Controls.Add(opcao.CheckBox);
 
             opcao.PanelIcone = new Panel()
             {
                 Location = new Point(margemBody + opcao.CheckBox.Width + espacamento, margemBody + (posicaoOpcao * (alturaPanel + espacamento))),
                 AutoSize = true,
-                AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                BackColor = Color.Bisque
+                AutoSizeMode = AutoSizeMode.GrowAndShrink
             };
 
             IconeInformacao iconeInformacao = new();
@@ -166,93 +130,203 @@ namespace ProjetoLimpezaDePCRefatoracao
             iconeInformacao.EventoExibeMensagemFlutuante.SetToolTip(iconeInformacao.Icone, iconeInformacao.Texto);
             opcao.IconeInformacao = iconeInformacao;
 
-            panel_1_Body.Controls.Add(opcao.PanelIcone);
+            Panel_1_Body.Controls.Add(opcao.PanelIcone);
             opcao.PanelIcone.Controls.Add(opcao.IconeInformacao.Icone);
 
             return opcao;
         }
 
-        private void CriarPanelsBody()
+        private void HelperCheckBoxIsChecked(object? sender, EventArgs? e)
         {
-            int larguraPanelBody = 550;
-            int alturaPanelBody = 530;
-            int localizacaoX = 70;
-            int localizacaoY = 81;
-
-            panel_1_Body = new Panel()
+            CheckBox checkBox = sender as CheckBox;
+            
+            if(OpcoesCriadas[1].CheckBox == checkBox)
             {
-                Size = new Size(larguraPanelBody, alturaPanelBody),
-                Location = new Point(localizacaoX, localizacaoY),
-                AutoScroll = true,
-                Enabled = true,
-                Visible = true,
-            };
-            this.Controls.Add(panel_1_Body);
+                LifeTimeOpcoesSecundariasPanelCheckBoxPosicao_1(checkBox);
+            }
 
-            ComecarCriacaoOpcoesPanel_1_Body(panel_1_Body);
+            HelperHabilitacaoBtnContinuar_CheckedChanged();
 
-            panel_2 = new Panel()
+            _ = OpcoesCriadas[2].CheckBox.Checked ? OpcoesCriadas[3].CheckBox.Enabled = false : OpcoesCriadas[3].CheckBox.Enabled = true;
+            _ = OpcoesCriadas[3].CheckBox.Checked ? OpcoesCriadas[2].CheckBox.Enabled = false : OpcoesCriadas[2].CheckBox.Enabled = true;
+        }
+
+        private void HelperHabilitacaoBtnContinuar_CheckedChanged()
+        {
+            bool algumCheckBoxSelecionado = false;
+
+            foreach (Opcao opcao in OpcoesCriadas)
             {
-                Size = new Size(larguraPanelBody, alturaPanelBody),
-                Location = new Point(localizacaoX, localizacaoY),
-                AutoScroll = true,
-                Enabled = false,
-                Visible = false
-            };
-            this.Controls.Add(panel_2);
+                if (opcao.CheckBox.Checked)
+                {
+                    algumCheckBoxSelecionado = true;
+                }
+            }
 
-            panel_3 = new Panel()
+            if (algumCheckBoxSelecionado)
             {
-                Size = new Size(larguraPanelBody, alturaPanelBody),
-                Location = new Point(localizacaoX, localizacaoY),
-                AutoScroll = true,
-                Enabled = false,
-                Visible = false
+                btnContinuar.Enabled = true;
+                btnContinuar.ForeColor = Color.Black;
+            }
+            else
+            {
+                btnContinuar.Enabled = false;
+                btnContinuar.ForeColor = Color.Gray;
+            }          
+        }
+
+        private void LifeTimeOpcoesSecundariasPanelCheckBoxPosicao_1(CheckBox componenteEscutado)
+        {
+            List<RadioButton> radioButtons = new List<RadioButton>();
+
+            List<string> ListaTiposLimpezaDeDisco = new List<string>()
+             {
+                "Limpeza Padrão",
+                "Limpeza Personalizada",
+                "Usar Última Limpeza Personalizada Realizada (Se houver)"
+             };
+
+            int margemBody = 20;
+            int espacamento = 5;
+            int alturaPanelCheckbox = 0;
+
+            Panel panelRadioButton = new()
+            {
+                Location = new Point(margemBody, OpcoesCriadas[1].PanelCheckBox.Height),
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink
             };
 
-            this.Controls.Add(panel_3);
+            if (componenteEscutado.Checked == true)
+            {
+                OpcoesCriadas[1].PanelCheckBox.Controls.Add(panelRadioButton);
+
+                for (int i = 0; i < ListaTiposLimpezaDeDisco.Count; i++)
+                {
+                    RadioButton radioButton = new RadioButton
+                    {
+                        Text = $"{ListaTiposLimpezaDeDisco[i]}",
+                        Font = new Font(Font.FontFamily, 11),
+                        AutoSize = true,
+                        Location = new Point(0, 30 * i + espacamento),
+                        Checked = (i == 0)
+                    };
+                    radioButtons.Add(radioButton);
+                    panelRadioButton.Controls.Add(radioButton);
+                }
+            }
+            else
+            {
+                foreach (Control control in OpcoesCriadas[1].PanelCheckBox.Controls)
+                {
+                    if (control.GetType() == typeof(Panel))
+                    {
+                        OpcoesCriadas[1].PanelCheckBox.Controls.Remove(control);
+                    }
+                }
+            }
+
+            for (int i = 0; i < OpcoesCriadas.Count(); i++)
+            {
+                OpcoesCriadas[i].PanelCheckBox.Location = new Point(margemBody, margemBody + (alturaPanelCheckbox + espacamento));
+                OpcoesCriadas[i].PanelIcone.Location = new Point(margemBody + OpcoesCriadas[i].PanelCheckBox.Width + espacamento, margemBody + alturaPanelCheckbox + espacamento);
+
+                alturaPanelCheckbox += OpcoesCriadas[i].PanelCheckBox.Height;
+            }
+    
+        }
+
+        private void btnContinuar_Click(object sender, EventArgs e)
+        {
+            int posicao = 0;
+            MetodosExecucao metodosExecucao = new MetodosExecucao();
+
+            Dictionary<CheckBox, Action> metodoCorrespondenteCheckBox = new()
+            {
+                {OpcoesCriadas[0].CheckBox, metodosExecucao.ExecutarLimpezaArquivosTemporarios },                
+                {OpcoesCriadas[2].CheckBox, metodosExecucao.ExecutarDesfragmentacaoOuOtimizacaoDeAcordoComMidia },
+                {OpcoesCriadas[3].CheckBox, metodosExecucao.ExecutarSomenteOtimizacao }
+               
+            };
+            switch (posicao)
+            {
+                case 0: metodosExecucao.ExecutarLimpezaArquivosTemporarios();
+                    break;
+
+                case 1:
+                    foreach (Control control in OpcoesCriadas[1].PanelCheckBox.Controls)
+                    {
+                        if (control is RadioButton radioButton)
+                        {
+                            if (radioButton.Checked)
+                            {
+
+                            }
+                        }
+                    }
+                    break;
+            }
+
+            Dictionary<CheckBox, Action> metodoCorrespondenteCheckBoxMarcado = new();
+
+            
+
+            for (int i = 0; i < OpcoesCriadas.Count(); i++)
+            {
+                if (OpcoesCriadas[i].CheckBox.Checked)
+                {
+                        
+                }
+            }
+            
+
+            HelperIdentificadorComponenteAtivo(true);
+
+        }
+
+        private void btnVoltar_Click(object sender, EventArgs e)
+        {
+            HelperIdentificadorComponenteAtivo(false);
         }
 
         private void HelperIdentificadorComponenteAtivo(bool isContinuar)
         {
-            if (panel_1_Body.Enabled)
-            {
-                var nome = nameof(panel_1_Body).Split('_').Last() == "1";
-
+            if (Panel_1_Body.Enabled)
+            {            
                 if (isContinuar)
                 {
-                    panel_1_Body.Visible = false;
-                    panel_1_Body.Enabled = false;
-                    panel_2.Visible = true;
-                    panel_2.Enabled = true;
+                    Panel_1_Body.Visible = false;
+                    Panel_1_Body.Enabled = false;
+                    Panel_2_Body.Visible = true;
+                    Panel_2_Body.Enabled = true;
                     btnVoltar.Enabled = true;
                     btnContinuar.Text = "Executar";
                 }
             }
 
-            else if (panel_2.Enabled)
+            else if (Panel_2_Body.Enabled)
             {
                 if (isContinuar)
                 {
-                    panel_2.Visible = false;
-                    panel_2.Enabled = false;
-                    panel_3.Visible = true;
-                    panel_3.Enabled = true;
+                    Panel_2_Body.Visible = false;
+                    Panel_2_Body.Enabled = false;
+                    Panel_3_Body.Visible = true;
+                    Panel_3_Body.Enabled = true;
                     btnContinuar.Text = "Finalizar";
                     btnVoltar.Enabled = false;
                     btnVoltar.Visible = false;
                 }
                 else
                 {
-                    panel_2.Visible = false;
-                    panel_2.Enabled = false;
-                    panel_1_Body.Visible = true;
-                    panel_1_Body.Enabled = true;
+                    Panel_2_Body.Visible = false;
+                    Panel_2_Body.Enabled = false;
+                    Panel_1_Body.Visible = true;
+                    Panel_1_Body.Enabled = true;
                     btnVoltar.Enabled = false;
                     btnContinuar.Text = "Continuar";
                 }
             }
-            else if (panel_3.Enabled)
+            else if (Panel_3_Body.Enabled)
             {
 
             }
