@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Linq;
 using ProjetoLimpezaDePCRefatoracao.Domain;
 using CheckBox = System.Windows.Forms.CheckBox;
 using RadioButton = System.Windows.Forms.RadioButton;
@@ -12,6 +13,11 @@ namespace ProjetoLimpezaDePCRefatoracao
         private Panel Panel_2_Body { get; set; }
         private Panel Panel_3_Body { get; set; }
         private List<Opcao> OpcoesCriadas { get; set; } = new List<Opcao>();
+        private List<RadioButton> RadioButtons { get; set; } = new List<RadioButton>();
+        private static string CaminhoArquivoJson { get; set; } = @"C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\Configs\appConfig.json";
+        private static string TextoJson { get; set; } = File.ReadAllText(CaminhoArquivoJson);
+        private JObject JsonObj { get; set; } = JObject.Parse(TextoJson);
+        private Dictionary<string, string> textosOpcoes { get; set; }
 
         public JanelaLimpezaPC()
         {
@@ -64,26 +70,34 @@ namespace ProjetoLimpezaDePCRefatoracao
         private void ComecarCriacaoOpcoesPanel_1_Body(Panel panel_1_Body)
         {
             #region criacao de opcoes
-
-            Dictionary<string, string> textosOpcoes = new Dictionary<string, string>()
+            try
             {
-                { "Limpeza de Arquivos Temporários", "Executa a limpeza de arquivos temporários das pastas:\nSerão excluídos apenas Arquivos temporários:\r\nPasta Tempdo usuário\r\nPasta Download e Temp do Windows\r\ne pasta Recent" },
-                { "Limpeza de Disco", "Executa a Limpeza de Disco do Windows\r\nVocê pode executar:\r\nLimpeza de Disco Padrão - Funcionalidade mais básica de limpeza,\r\nLimpeza de Disco Personalizada - Abre a janela de Limpeza de Disco para que selecione os arquivos que deseja limpar manualmente\r\nÚltima Limpeza Personalizada realizada - Executa a Limpeza com as mesmas seleções escolhidas na última Limpeza de Disco Personalizada executada." },
-                { "Otimização/Desfragmentação de Disco", "Executa a Desfragmentação e Otimização em caso de HDD e Otimização em caso de SSD" },
-                { "Otimização de Disco(somente)", "Executa somente Otimização de Disco - recomendado para SSD" },
-                { "Limpeza de Log do Windows", "Executa Limpeza de Log do Windows - (INDISPONÍVEL)" }
+
+             textosOpcoes = new Dictionary<string, string>()
+            {
+                { JsonObj["checkBox1"].ToString(), "Serão excluídos apenas Arquivos temporários:\r\nPasta Temp do usuário\r\nPasta Download e Temp do Windows\r\nPasta Recent" },
+                { JsonObj["checkBox2"].ToString(), "Executa a Limpeza de Disco do Windows\r\nVocê pode executar:\r\nLimpeza de Disco Padrão - Funcionalidade mais básica de limpeza,\r\nLimpeza de Disco Personalizada - Abre a janela de Limpeza de Disco para que selecione os arquivos que deseja limpar manualmente\r\nÚltima Limpeza Personalizada realizada - Executa a Limpeza com as mesmas seleções escolhidas na última Limpeza de Disco Personalizada executada." },
+                { JsonObj["checkBox3"].ToString(), "Executa a Desfragmentação e Otimização em caso de HDD e Otimização em caso de SSD" },
+                { JsonObj["checkBox4"].ToString(), "Executa somente Otimização de Disco - recomendado para SSD" },
+                { JsonObj["checkBox5"].ToString(), "Executa Limpeza de Log do Windows - (INDISPONÍVEL)" }
             };
 
-            int posicaoOpcao = 0;
-            foreach (var opcao in textosOpcoes)
+                int posicaoOpcao = 0;
+                foreach (var opcao in textosOpcoes)
+                {
+                    Opcao opcaoCriada = PopularAdicionarOpcao(opcao.Key, opcao.Value, posicaoOpcao);
+                    OpcoesCriadas.Add(opcaoCriada);
+
+                    OpcoesCriadas[posicaoOpcao].CheckBox.CheckedChanged += new EventHandler(HelperCheckBoxIsChecked);
+
+                    posicaoOpcao++;
+                }
+            }
+            catch (Exception ex)
             {
-                Opcao opcaoCriada = PopularAdicionarOpcao(opcao.Key, opcao.Value, posicaoOpcao);
-                OpcoesCriadas.Add(opcaoCriada);
+                MessageBox.Show($"{ex} Não foi possível proceguir com a execução!");
+            }
 
-                OpcoesCriadas[posicaoOpcao].CheckBox.CheckedChanged += new EventHandler(HelperCheckBoxIsChecked);
-
-                posicaoOpcao++;
-            }            
             #endregion
         }
 
@@ -139,8 +153,8 @@ namespace ProjetoLimpezaDePCRefatoracao
         private void HelperCheckBoxIsChecked(object? sender, EventArgs? e)
         {
             CheckBox checkBox = sender as CheckBox;
-            
-            if(OpcoesCriadas[1].CheckBox == checkBox)
+
+            if (OpcoesCriadas[1].CheckBox == checkBox)
             {
                 LifeTimeOpcoesSecundariasPanelCheckBoxPosicao_1(checkBox);
             }
@@ -172,116 +186,212 @@ namespace ProjetoLimpezaDePCRefatoracao
             {
                 btnContinuar.Enabled = false;
                 btnContinuar.ForeColor = Color.Gray;
-            }          
+            }
         }
 
         private void LifeTimeOpcoesSecundariasPanelCheckBoxPosicao_1(CheckBox componenteEscutado)
         {
-            List<RadioButton> radioButtons = new List<RadioButton>();
-
-            List<string> ListaTiposLimpezaDeDisco = new List<string>()
-             {
-                "Limpeza Padrão",
-                "Limpeza Personalizada",
-                "Usar Última Limpeza Personalizada Realizada (Se houver)"
-             };
-
-            int margemBody = 20;
-            int espacamento = 5;
-            int alturaPanelCheckbox = 0;
-
-            Panel panelRadioButton = new()
+            try
             {
-                Location = new Point(margemBody, OpcoesCriadas[1].PanelCheckBox.Height),
-                AutoSize = true,
-                AutoSizeMode = AutoSizeMode.GrowAndShrink
-            };
-
-            if (componenteEscutado.Checked == true)
-            {
-                OpcoesCriadas[1].PanelCheckBox.Controls.Add(panelRadioButton);
-
-                for (int i = 0; i < ListaTiposLimpezaDeDisco.Count; i++)
+                List<string> ListaTiposLimpezaDeDisco = new List<string>()
                 {
-                    RadioButton radioButton = new RadioButton
-                    {
-                        Text = $"{ListaTiposLimpezaDeDisco[i]}",
-                        Font = new Font(Font.FontFamily, 11),
-                        AutoSize = true,
-                        Location = new Point(0, 30 * i + espacamento),
-                        Checked = (i == 0)
-                    };
-                    radioButtons.Add(radioButton);
-                    panelRadioButton.Controls.Add(radioButton);
-                }
-            }
-            else
-            {
-                foreach (Control control in OpcoesCriadas[1].PanelCheckBox.Controls)
+                    JsonObj["radioButton1"].ToString(),
+                    JsonObj["radioButton2"].ToString(),
+                    JsonObj["radioButton3"].ToString()
+                };
+
+                int margemBody = 20;
+                int espacamento = 5;
+                int alturaPanelCheckbox = 0;
+
+                Panel panelRadioButton = new()
                 {
-                    if (control.GetType() == typeof(Panel))
+                    Location = new Point(margemBody, OpcoesCriadas[1].PanelCheckBox.Height),
+                    AutoSize = true,
+                    AutoSizeMode = AutoSizeMode.GrowAndShrink
+                };
+
+                if (componenteEscutado.Checked == true)
+                {
+                    OpcoesCriadas[1].PanelCheckBox.Controls.Add(panelRadioButton);
+
+                    for (int i = 0; i < ListaTiposLimpezaDeDisco.Count; i++)
                     {
-                        OpcoesCriadas[1].PanelCheckBox.Controls.Remove(control);
+                        RadioButton radioButton = new RadioButton
+                        {
+                            Text = $"{ListaTiposLimpezaDeDisco[i]}",
+                            Font = new Font(Font.FontFamily, 11),
+                            AutoSize = true,
+                            Location = new Point(0, 30 * i + espacamento),
+                            Checked = (i == 0)
+                        };
+                        RadioButtons.Add(radioButton);
+                        panelRadioButton.Controls.Add(radioButton);
                     }
                 }
-            }
+                else
+                {
+                    foreach (Control control in OpcoesCriadas[1].PanelCheckBox.Controls)
+                    {
+                        if (control.GetType() == typeof(Panel))
+                        {
+                            OpcoesCriadas[1].PanelCheckBox.Controls.Remove(control);
+                        }
+                    }
+                }
 
-            for (int i = 0; i < OpcoesCriadas.Count(); i++)
+                for (int i = 0; i < OpcoesCriadas.Count(); i++)
+                {
+                    OpcoesCriadas[i].PanelCheckBox.Location = new Point(margemBody, margemBody + (alturaPanelCheckbox + espacamento));
+                    OpcoesCriadas[i].PanelIcone.Location = new Point(margemBody + OpcoesCriadas[i].PanelCheckBox.Width + espacamento, margemBody + alturaPanelCheckbox + espacamento);
+
+                    alturaPanelCheckbox += OpcoesCriadas[i].PanelCheckBox.Height;
+                }
+            }
+            catch (Exception ex)
             {
-                OpcoesCriadas[i].PanelCheckBox.Location = new Point(margemBody, margemBody + (alturaPanelCheckbox + espacamento));
-                OpcoesCriadas[i].PanelIcone.Location = new Point(margemBody + OpcoesCriadas[i].PanelCheckBox.Width + espacamento, margemBody + alturaPanelCheckbox + espacamento);
-
-                alturaPanelCheckbox += OpcoesCriadas[i].PanelCheckBox.Height;
+                MessageBox.Show($"{ex} Não foi possível proceguir com a execução!");
             }
-    
         }
 
         private void btnContinuar_Click(object sender, EventArgs e)
         {
-            int posicao = 0;
+            Dictionary<CheckBox, Action> metodoCorrespondenteOpcoesSelecionadas = new();
+
             MetodosExecucao metodosExecucao = new MetodosExecucao();
 
-            Dictionary<CheckBox, Action> metodoCorrespondenteCheckBox = new()
+            for (int posicao = 0; posicao < OpcoesCriadas.Count(); posicao++)
             {
-                {OpcoesCriadas[0].CheckBox, metodosExecucao.ExecutarLimpezaArquivosTemporarios },                
-                {OpcoesCriadas[2].CheckBox, metodosExecucao.ExecutarDesfragmentacaoOuOtimizacaoDeAcordoComMidia },
-                {OpcoesCriadas[3].CheckBox, metodosExecucao.ExecutarSomenteOtimizacao }
-               
-            };
-            switch (posicao)
-            {
-                case 0: metodosExecucao.ExecutarLimpezaArquivosTemporarios();
-                    break;
-
-                case 1:
-                    foreach (Control control in OpcoesCriadas[1].PanelCheckBox.Controls)
-                    {
-                        if (control is RadioButton radioButton)
-                        {
-                            if (radioButton.Checked)
-                            {
-
-                            }
-                        }
-                    }
-                    break;
-            }
-
-            Dictionary<CheckBox, Action> metodoCorrespondenteCheckBoxMarcado = new();
-
-            
-
-            for (int i = 0; i < OpcoesCriadas.Count(); i++)
-            {
-                if (OpcoesCriadas[i].CheckBox.Checked)
+                if (OpcoesCriadas[posicao].CheckBox.Checked)
                 {
-                        
+                    switch (posicao)
+                    {
+                        case 0:
+                            metodoCorrespondenteOpcoesSelecionadas.Add(OpcoesCriadas[0].CheckBox, metodosExecucao.ExecutarLimpezaArquivosTemporarios);
+                            break;
+
+                        case 1:
+                            foreach (RadioButton r in RadioButtons)
+                            {
+                                if (r.Checked)
+                                {
+                                    if (r.Text == JsonObj["radioButton1"].ToString())
+                                    {
+                                        metodoCorrespondenteOpcoesSelecionadas.Add(OpcoesCriadas[1].CheckBox, metodosExecucao.ExecutarLimpezaDeDiscoPadrão);
+                                        break;
+                                    }
+                                    if (r.Text == JsonObj["radioButton2"].ToString())
+                                    {
+                                        metodoCorrespondenteOpcoesSelecionadas.Add(OpcoesCriadas[1].CheckBox, metodosExecucao.ExecutarLimpezaComConfigManual);
+                                        break;
+                                    }
+                                    if (r.Text == JsonObj["radioButton3"].ToString())
+                                    {
+                                        metodoCorrespondenteOpcoesSelecionadas.Add(OpcoesCriadas[1].CheckBox, metodosExecucao.ExecutarLimpezaDeDiscoComChaveExistente);
+                                        break;
+                                    }
+                                }
+                            }
+                            break;
+
+                        case 2:
+                            metodoCorrespondenteOpcoesSelecionadas.Add(OpcoesCriadas[2].CheckBox, metodosExecucao.ExecutarDesfragmentacaoOuOtimizacaoDeAcordoComMidia);
+                            break;
+
+                        case 3:
+                            metodoCorrespondenteOpcoesSelecionadas.Add(OpcoesCriadas[3].CheckBox, metodosExecucao.ExecutarSomenteOtimizacao);
+                            break;
+                    }
                 }
             }
-            
 
             HelperIdentificadorComponenteAtivo(true);
+            ComecaCriacaoPanel_2_Body(metodoCorrespondenteOpcoesSelecionadas);
+        }
 
+        private void ComecaCriacaoPanel_2_Body(Dictionary<CheckBox, Action> metodoCorrespondenteOpcoesSelecionadas)
+        {
+            tituloHeader.Text = "Opções selecionadas";
+            linkExcluirChavesCriadas.Enabled = false;
+            linkExcluirChavesCriadas.Visible = false;
+
+            Panel panelOpcoesSelecionadas = new Panel()
+            {
+                Location = new Point(0,0),
+                Size = new Size(500, 100), 
+                BackColor = Color.Azure
+            };
+            Panel_2_Body.Controls.Add(panelOpcoesSelecionadas);
+
+            Panel panelDescricaoOpcoes = new Panel() //
+            {
+                Location = new Point(0, panelOpcoesSelecionadas.Height + 5),
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                BackColor = Color.Azure
+            };
+            Panel_2_Body.Controls.Add(panelDescricaoOpcoes);
+            int cont = 0;
+
+            foreach (var opcao in metodoCorrespondenteOpcoesSelecionadas)
+            {              
+                int tamanho = 20;
+                int espacamento = 5;
+
+                Panel panelLabelOpcaoSelecionada = new Panel()
+                {
+                    Location = new Point(0, tamanho * cont + espacamento),
+                    Size = new Size(500, tamanho),
+                    //BackColor= Color.Black
+                };
+
+                panelOpcoesSelecionadas.Controls.Add(panelLabelOpcaoSelecionada);
+
+                Label opcaoEscolhida = new Label()
+                {
+                    Text = opcao.Key.Text,
+                    AutoSize = true
+                };
+
+                if(opcao.Key.Text == JsonObj["checkBox2"].ToString())
+                {
+                    foreach( RadioButton r in RadioButtons)
+                    {
+                        if (r.Checked)
+                        {
+                            opcaoEscolhida.Text += $" - {r.Text}";
+                        }
+                    }                   
+                }
+                panelLabelOpcaoSelecionada.Controls.Add(opcaoEscolhida);
+
+                foreach (var opcaoSelecionada in metodoCorrespondenteOpcoesSelecionadas)
+                {
+                    foreach (var textoOpcao in textosOpcoes)
+                    {
+                        if(textoOpcao.Key == opcaoSelecionada.Key.Text)
+                        {
+                            Panel panelDescricao = new Panel()
+                            {
+                                Location = new Point(0, cont * (tamanho + 20)),
+                                AutoSize = true,
+                                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                             
+                            };
+                            panelDescricaoOpcoes.Controls.Add(panelDescricao);
+
+                            Label descricaoOpcaoSelecionada = new Label()
+                            {
+                                Text = textoOpcao.Value,
+                                AutoSize = true,
+                            };
+                            panelDescricao.Controls.Add(descricaoOpcaoSelecionada);
+                        }
+                    } 
+                }
+                
+                cont++;
+            }           
         }
 
         private void btnVoltar_Click(object sender, EventArgs e)
@@ -292,7 +402,7 @@ namespace ProjetoLimpezaDePCRefatoracao
         private void HelperIdentificadorComponenteAtivo(bool isContinuar)
         {
             if (Panel_1_Body.Enabled)
-            {            
+            {
                 if (isContinuar)
                 {
                     Panel_1_Body.Visible = false;
@@ -331,6 +441,7 @@ namespace ProjetoLimpezaDePCRefatoracao
 
             }
         }
+   
     }
 }
 

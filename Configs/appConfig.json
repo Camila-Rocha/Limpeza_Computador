@@ -1,0 +1,17 @@
+﻿{
+  "checkBox1": "Limpeza de Arquivos Temporários",
+
+  "checkBox2": "Limpeza de Disco",
+
+  "checkBox3": "Otimização/Desfragmentação de Disco",
+
+  "checkBox4": "Otimização de Disco(somente)",
+
+  "checkBox5": "Limpeza de Log do Windows",
+
+  "radioButton1": "Limpeza Padrão",
+
+  "radioButton2": "Limpeza Personalizada",
+
+  "radioButton3": "Usar Última Limpeza Personalizada Realizada (Se houver)"
+}

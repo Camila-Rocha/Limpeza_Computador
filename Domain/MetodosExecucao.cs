@@ -179,7 +179,7 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
             Process.Start("cleanmgr", $"/d {unidade} /c /sagerun: /verylowdisk");
         }
 
-        public bool ExecutarLimpezaDeDiscoComChaveExistente()
+        public void ExecutarLimpezaDeDiscoComChaveExistente()
         {
             string unidade = BuscarUnidadeQueContemSistemaOperacional();
 
@@ -188,13 +188,10 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
                 string[] linhas = File.ReadAllLines(CaminhoArquivoChave());
                 string chaveDoArquivo = linhas[0];
                 ExecutarLimpezaDeDiscoBase(unidade, chaveDoArquivo);
-
-                return true;
             }
-
             else
             {
-                return false;
+                MessageBox.Show("Configuração não existe!");
             }
         }
 

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(JanelaLimpezaPC));
-            label1 = new Label();
+            tituloHeader = new Label();
             linkExcluirChavesCriadas = new LinkLabel();
             panelFooter = new Panel();
             btnVoltar = new Button();
@@ -39,15 +39,15 @@
             panelHeader.SuspendLayout();
             SuspendLayout();
             // 
-            // label1
+            // tituloHeader
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Arial Narrow", 13F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(41, 23);
-            label1.Name = "label1";
-            label1.Size = new Size(366, 26);
-            label1.TabIndex = 1;
-            label1.Text = "Selecione as opções que deseja executar";
+            tituloHeader.AutoSize = true;
+            tituloHeader.Font = new Font("Arial Narrow", 13F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            tituloHeader.Location = new Point(41, 23);
+            tituloHeader.Name = "tituloHeader";
+            tituloHeader.Size = new Size(366, 26);
+            tituloHeader.TabIndex = 1;
+            tituloHeader.Text = "Selecione as opções que deseja executar";
             // 
             // linkExcluirChavesCriadas
             // 
@@ -94,7 +94,7 @@
             // panelHeader
             // 
             panelHeader.BackColor = SystemColors.Menu;
-            panelHeader.Controls.Add(label1);
+            panelHeader.Controls.Add(tituloHeader);
             panelHeader.Controls.Add(linkExcluirChavesCriadas);
             panelHeader.Location = new Point(1, 2);
             panelHeader.Name = "panelHeader";
@@ -123,7 +123,7 @@
 
         #endregion
 
-        private Label label1;
+        private Label tituloHeader;
         private LinkLabel linkExcluirChavesCriadas;
         private Panel panelFooter;
         private Button btnVoltar;
