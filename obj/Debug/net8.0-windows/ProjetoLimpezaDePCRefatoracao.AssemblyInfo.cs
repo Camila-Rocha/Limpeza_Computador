@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ProjetoLimpezaDePCRefatoracao")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5bffa45c63545d47eb54bb87c0b976138a0021d7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bd7a41829f43c40e7c6c26bbfe05cf9239752ec9")]
 [assembly: System.Reflection.AssemblyProductAttribute("ProjetoLimpezaDePCRefatoracao")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ProjetoLimpezaDePCRefatoracao")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
