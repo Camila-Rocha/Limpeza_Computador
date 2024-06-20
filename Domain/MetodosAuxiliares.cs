@@ -22,7 +22,6 @@ public class MetodosAuxiliares
                 }
                 break;
             }
-
             else
             {
                 return "unidade não encontrada";

@@ -59,6 +59,7 @@
             linkExcluirChavesCriadas.TabIndex = 0;
             linkExcluirChavesCriadas.TabStop = true;
             linkExcluirChavesCriadas.Text = "Excluir Chaves Criadas";
+            linkExcluirChavesCriadas.LinkClicked += LinkExcluirChavesCriadas_LinkClicked;
             // 
             // panelFooter
             // 
@@ -89,7 +90,7 @@
             btnContinuar.TabIndex = 0;
             btnContinuar.Text = "Continuar";
             btnContinuar.UseVisualStyleBackColor = true;
-            btnContinuar.Click += btnContinuar_Click;
+            btnContinuar.Click += BtnContinuar_Click;
             // 
             // panelHeader
             // 

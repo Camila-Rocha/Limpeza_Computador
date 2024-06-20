@@ -80,21 +80,21 @@ namespace ProjetoLimpezaDePCRefatoracao
                 { JsonObj["checkBox4"]!.ToString(), "Executa somente Otimização de Disco - recomendado para SSD" },
                 { JsonObj["checkBox5"]!.ToString(), "Executa Limpeza de Log do Windows - (INDISPONÍVEL)" }
             };
-               
+
                 int posicaoOpcao = 0;
                 SubOpcoesRadiobuttons subOpcoesRadiobuttons = new SubOpcoesRadiobuttons();
 
                 foreach (var opcao in TextosOpcoes)
-                {                  
+                {
                     Opcao opcaoCriada = PopularAdicionarOpcao(opcao.Key, opcao.Value, posicaoOpcao);
-                    
+
                     if (opcao.Key == JsonObj["checkBox2"].ToString())
                     {
                         opcaoCriada.RadioButtons = subOpcoesRadiobuttons.RadioButtons;
                     }
                     OpcoesESubOpcoesCriadas.Add(opcaoCriada);
                     OpcoesESubOpcoesCriadas[posicaoOpcao].CheckBox.CheckedChanged += new EventHandler(HelperCheckBoxIsChecked);
-                    
+
                     posicaoOpcao++;
                 }
             }
@@ -151,7 +151,7 @@ namespace ProjetoLimpezaDePCRefatoracao
 
             Panel_1_Body.Controls.Add(opcao.PanelIcone);
             opcao.PanelIcone.Controls.Add(opcao.IconeInformacao.Icone);
-           
+
             return opcao;
         }
 
@@ -243,7 +243,7 @@ namespace ProjetoLimpezaDePCRefatoracao
             }
         }
 
-        private void btnContinuar_Click(object sender, EventArgs e)
+        private void BtnContinuar_Click(object sender, EventArgs e)
         {
             Dictionary<CheckBox, Action> metodoCorrespondenteOpcoesSelecionadas = new();
 
@@ -304,81 +304,120 @@ namespace ProjetoLimpezaDePCRefatoracao
             linkExcluirChavesCriadas.Enabled = false;
             linkExcluirChavesCriadas.Visible = false;
 
-            Panel panelOpcoesSelecionadas = new Panel()
+            Panel panelOpcoesSelecionadas = new()
             {
-                Location = new Point(0,0),
-                Size = new Size(500, 100), 
-                BackColor = Color.Azure
+                Location = new Point(0, 0),
+                Size = new Size(550, 90),
             };
             Panel_2_Body.Controls.Add(panelOpcoesSelecionadas);
 
-            Panel panelDescricaoOpcoes = new Panel() //
+            Panel panelDescricaoOpcoes = new()
             {
-                Location = new Point(0, panelOpcoesSelecionadas.Height + 5),
+                Location = new Point(0, panelOpcoesSelecionadas.Height + 150),
+                Size = new Size(550, 0),
                 AutoSize = true,
-                AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                BackColor = Color.Azure
+                BackColor = Color.AliceBlue,
             };
             Panel_2_Body.Controls.Add(panelDescricaoOpcoes);
+
             int cont = 0;
+            int tamanho = 20;
+            int espacamento = 5;
 
             foreach (var opcao in metodoCorrespondenteOpcoesSelecionadas)
-            {              
-                int tamanho = 20;
-                int espacamento = 5;
-
-                Panel panelLabelOpcaoSelecionada = new Panel()
+            {
+                Panel panelOpcao = new()
                 {
                     Location = new Point(0, tamanho * cont + espacamento),
-                    Size = new Size(500, tamanho)
+                    Size = new Size(550, tamanho)
                 };
 
-                panelOpcoesSelecionadas.Controls.Add(panelLabelOpcaoSelecionada);
+                panelOpcoesSelecionadas.Controls.Add(panelOpcao);
 
-                Label opcaoEscolhida = new Label()
+                Label opcaoEscolhida = new()
                 {
                     Text = opcao.Key.Text,
-                    AutoSize = true
+                    AutoSize = true,
+                    MaximumSize = new Size(550, 0),
+                    ForeColor = Opcao.CoresCadaOpcao[cont],
+                    Font = new Font(Font.FontFamily, 12, FontStyle.Bold),
+
                 };
 
-                if(opcao.Key.Text == JsonObj["checkBox2"].ToString())
+                if (opcao.Key.Text == JsonObj["checkBox2"].ToString())
                 {
-                    foreach( RadioButton r in OpcoesESubOpcoesCriadas[1].RadioButtons)
+                    foreach (RadioButton r in OpcoesESubOpcoesCriadas[1].RadioButtons)
                     {
                         if (r.Checked)
                         {
                             opcaoEscolhida.Text += $" - {r.Text}";
                         }
-                    }                   
+                    }
                 }
-                panelLabelOpcaoSelecionada.Controls.Add(opcaoEscolhida);
+                espacamento += espacamento;
+                panelOpcao.Controls.Add(opcaoEscolhida);
+                cont++;
+            }
 
-                foreach (var opcaoSelecionada in metodoCorrespondenteOpcoesSelecionadas)
+            List<Panel> ContemPanelsDescricao = new();
+            int alturaPanelDescricao = 0;
+            int contador = 0;
+            cont = 0;
+            espacamento = 10;
+
+            foreach (var opcaoSelecionada in metodoCorrespondenteOpcoesSelecionadas)
+            {
+                foreach (var textoOpcao in TextosOpcoes)
                 {
-                    foreach (var textoOpcao in TextosOpcoes)
+                    if (textoOpcao.Key == opcaoSelecionada.Key.Text)
                     {
-                        if(textoOpcao.Key == opcaoSelecionada.Key.Text)
+                        if (ContemPanelsDescricao.Count == 0)
                         {
-                            Panel panelDescricao = new Panel()
+                            Panel panelContemDescricao_1 = new()
                             {
-                                Location = new Point(0, tamanho * cont + espacamento),
+                                Location = new Point(0, 0),
                                 AutoSize = true,
-                                AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                             
+                                AutoSizeMode = AutoSizeMode.GrowAndShrink
                             };
-                            panelDescricaoOpcoes.Controls.Add(panelDescricao);
+                            ContemPanelsDescricao.Add(panelContemDescricao_1);
+                            panelDescricaoOpcoes.Controls.Add(panelContemDescricao_1);
 
-                            Label descricaoOpcaoSelecionada = new Label()
+                            Label labelDescricao = new()
                             {
                                 Text = textoOpcao.Value,
                                 AutoSize = true,
+                                MaximumSize = new Size(550, 0),
+                                ForeColor = Opcao.CoresCadaOpcao[cont]
                             };
-                            panelDescricao.Controls.Add(descricaoOpcaoSelecionada);
+                            panelContemDescricao_1.Controls.Add(labelDescricao);
                         }
-                    } 
-                }                
-                cont++;
-            }           
+                        else
+                        {
+                            alturaPanelDescricao += ContemPanelsDescricao[contador].Height;
+                            Panel panelContemDescricao = new()
+                            {
+                                Location = new Point(0, alturaPanelDescricao + espacamento),
+                                AutoSize = true,
+                                AutoSizeMode = AutoSizeMode.GrowAndShrink
+                            };
+                            ContemPanelsDescricao.Add(panelContemDescricao);
+                            panelDescricaoOpcoes.Controls.Add(panelContemDescricao);
+
+                            Label labelDescricao = new()
+                            {
+                                Text = textoOpcao.Value,
+                                AutoSize = true,
+                                MaximumSize = new Size(550, 0),
+                                ForeColor = Opcao.CoresCadaOpcao[cont]
+                            };
+                            panelContemDescricao.Controls.Add(labelDescricao);
+                            contador++;
+                            espacamento += espacamento;
+                        }
+                        cont++;
+                    }
+                }
+            }
         }
 
         private void btnVoltar_Click(object sender, EventArgs e)
@@ -421,13 +460,19 @@ namespace ProjetoLimpezaDePCRefatoracao
                     Panel_1_Body.Enabled = true;
                     btnVoltar.Enabled = false;
                     btnContinuar.Text = "Continuar";
+                    tituloHeader.Text = "Selecione as opções que deseja executar";
                 }
             }
             else if (Panel_3_Body.Enabled)
             {
 
             }
-        }   
+        }
+
+        private void LinkExcluirChavesCriadas_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
     }
 }
 

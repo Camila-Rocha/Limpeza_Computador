@@ -10,7 +10,6 @@
             Location = new Point(0, 30 * 0 + 5),
             Checked = true
         };
-
         public static RadioButton RadiobuttonLimpezaPersonalizada { get; } = new()
         {
             Text = "Limpeza Personalizada",
