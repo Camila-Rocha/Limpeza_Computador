@@ -5,7 +5,42 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
 {
     internal class MetodosExecucao : MetodosAuxiliares
     {  
-        public void ExecutarLimpezaArquivosTemporarios()
+        public string ExecutaLimpezaLogWindows()
+        {
+            string logName = "Application"; 
+            DateTime thresholdDate = DateTime.Now.AddDays(-30);         
+
+            try
+            {
+                // Verifica se o log especificado existe
+                if (EventLog.Exists(logName))
+                {
+                    // Cria um objeto EventLog associado ao log especificado
+                    using (EventLog eventLog = new EventLog(logName))
+                    {
+                        // Itera através das entradas do log
+                        foreach (EventLogEntry entry in eventLog.Entries)
+                        {
+                            // Verifica se a data da entrada é anterior à data limite                          
+                                // Exibe ou processa a entrada conforme necessário
+                                return $"Data: {entry.TimeGenerated}, Tipo: {entry.EntryType}, Fonte: {entry.Source}, Mensagem: {entry.Message}";
+                            
+                        }
+                    }
+                    return "nada";
+                }
+
+                else
+                {
+                    return $"O log {logName} não existe.";
+                }
+            }
+            catch (Exception ex)
+            {
+                return $"Erro ao tentar acessar o log {logName}: {ex.Message}";
+            }
+        }
+        public string ExecutarLimpezaArquivosTemporarios()
         {
             int contPastas = 0;
             int contArquivos = 0;
@@ -52,16 +87,19 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
                             continue;
                         }
                     }
-                }               
+                }
+                return $"Limpeza de arquivos temporários executado com sucesso.\nForam deletados: {contPastas} pastas e {contArquivos} arquivos";
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                return "Erro ao executar limpeza de arquivos temporários";
             }           
         }
 
-        public void ExecutarDesfragmentacaoOuOtimizacaoDeAcordoComMidia()
+        public string ExecutarDesfragmentacaoOuOtimizacaoDeAcordoComMidia()
         {
+            string resultadoOtimizacaoDesfragmentacao;
             string unidade = BuscarUnidadeQueContemSistemaOperacional();
 
             try
@@ -75,23 +113,25 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
                     process.StartInfo.RedirectStandardOutput = true;
                     process.StartInfo.StandardOutputEncoding = System.Text.Encoding.UTF8;
 
-                    process.Start();                    
-
+                    process.Start();
+                    resultadoOtimizacaoDesfragmentacao = process.StandardOutput.ReadToEnd();
                     process.WaitForExit();
 
+                    return resultadoOtimizacaoDesfragmentacao;
                 }
             }
 
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
+                return "Erro ao executar Otimização/Desfragmentação de disco!";
             }
         }
 
-        public void ExecutarSomenteOtimizacao()
+        public string ExecutarSomenteOtimizacao()
         {
             string unidade = BuscarUnidadeQueContemSistemaOperacional();
-
+            string resultadoOtimizacao;
             try
             {
                 using (Process process = new())
@@ -104,18 +144,21 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
                     process.StartInfo.StandardOutputEncoding = System.Text.Encoding.UTF8;
 
                     process.Start();
-
+                    resultadoOtimizacao = process.StandardOutput.ReadToEnd();
                     process.WaitForExit();
+
+                    return resultadoOtimizacao;
                 }
             }
 
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
+                return "erro ao executar otimização de Disco!";
             }
         }
 
-        public void ExecutarLimpezaComConfigManual()
+        public string ExecutarLimpezaComConfigManual()
         {
             int chave = 1000;
             string unidade = BuscarUnidadeQueContemSistemaOperacional();
@@ -126,10 +169,9 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
                 {
                     if (VerificarSeChaveExisteNoRegistroDoWindows(chave.ToString()) == false)
                     {
-                        ExecutarLimpezaDeDiscoBase(unidade, chave.ToString());
                         GravarChaveEmArquivo(chave.ToString());
 
-                        break;
+                        return ExecutarLimpezaDeDiscoBase(unidade, chave.ToString());                                              
                     }
                     else
                     {
@@ -137,7 +179,7 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
                     }
                 }
 
-                while (true);
+                while (true);              
             }
 
             else
@@ -152,34 +194,40 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
                         if (VerificarSeChaveExisteNoRegistroDoWindows(chaveDoArquivo) == true)
                         {
                             Registry.CurrentUser.DeleteSubKeyTree($@"Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU\DiskCleanup\{unidade}\{chaveDoArquivo}");
-                            ExecutarLimpezaDeDiscoBase(unidade, chaveDoArquivo);
                             GravarChaveEmArquivo(chaveDoArquivo);
-
-                            break;
+                            return ExecutarLimpezaDeDiscoBase(unidade, chaveDoArquivo);
                         }
                         else
                         {
-                            ExecutarLimpezaDeDiscoBase(unidade, chaveDoArquivo);
                             GravarChaveEmArquivo(chaveDoArquivo);
-
-                            break; //adicionei 
+                            return ExecutarLimpezaDeDiscoBase(unidade, chaveDoArquivo);                           
                         }
+                        
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"{ex}: Erro ao tentar ler as configurações existentes");
+                        return $"{ex}: Erro ao tentar executar a Limpeza de Disco";
                     }
                 }
             }
         }
 
-        public void ExecutarLimpezaDeDiscoPadrão()
+        public string ExecutarLimpezaDeDiscoPadrão()
         {
-            string unidade = BuscarUnidadeQueContemSistemaOperacional();
-            Process.Start("cleanmgr", $"/d {unidade} /c /sagerun: /verylowdisk");
+            try
+            {
+                string unidade = BuscarUnidadeQueContemSistemaOperacional();
+                Process.Start("cleanmgr", $"/d {unidade} /c /sagerun: /verylowdisk");
+
+                return "Limpeza de disco executada com sucesso!";
+            }
+            catch (Exception ex)
+            {
+                return $"{ex}: Erro ao tentar executar a Limpeza de Disco";
+            }
         }
 
-        public void ExecutarLimpezaDeDiscoComChaveExistente()
+        public string ExecutarLimpezaDeDiscoComChaveExistente()
         {
             string unidade = BuscarUnidadeQueContemSistemaOperacional();
 
@@ -187,41 +235,50 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
             {
                 string[] linhas = File.ReadAllLines(CaminhoArquivoChave());
                 string chaveDoArquivo = linhas[0];
-                ExecutarLimpezaDeDiscoBase(unidade, chaveDoArquivo);
+                return ExecutarLimpezaDeDiscoBase(unidade, chaveDoArquivo);
+                
             }
             else
             {
-                MessageBox.Show("Configuração não existe!");
+                return "Configuração não existe!";
             }
         }
 
-        public void ExecutarLimpezaDeDiscoBase(string unidade, string chave)
+        public string ExecutarLimpezaDeDiscoBase(string unidade, string chave)
         {
             Process processoCleanmgr = Process.Start("cleanmgr", $"/sageset:{chave} /d {unidade}");
-
-            if (processoCleanmgr == null)
+            try
             {
-                return;
+                if (processoCleanmgr == null)
+                {
+                    return "Chave não existe";
+                }
+
+                processoCleanmgr.WaitForExit();
+
+                var subprocessos = from proc in Process.GetProcesses()
+                                   where PegaIdProcessoPai(proc.Id) == processoCleanmgr.Id
+                                   select proc;
+
+                subprocessos = subprocessos.ToArray();
+
+                foreach (var childProcess in subprocessos)
+                {
+                    childProcess.WaitForExit();
+                }
+
+                Process.Start("cleanmgr", $"sagerun:{chave}");
+
+                using (RegistryKey key = Registry.CurrentUser.CreateSubKey($@"Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU\DiskCleanup\{unidade}\{chave}"))
+                {
+                    key.SetValue("Settings", $"/sagerun:{chave}");
+                }
+
+                return "Limpeza de disco executada com sucesso!";
             }
-
-            processoCleanmgr.WaitForExit();
-
-            var subprocessos = from proc in Process.GetProcesses()
-                               where PegaIdProcessoPai(proc.Id) == processoCleanmgr.Id
-                               select proc;
-
-            subprocessos = subprocessos.ToArray();
-
-            foreach (var childProcess in subprocessos)
+            catch (Exception ex)
             {
-                childProcess.WaitForExit();
-            }
-
-            Process.Start("cleanmgr", $"sagerun:{chave}");
-
-            using (RegistryKey key = Registry.CurrentUser.CreateSubKey($@"Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU\DiskCleanup\{unidade}\{chave}"))
-            {
-                key.SetValue("Settings", $"/sagerun:{chave}");
+                return $"{ex}: Erro ao tentar executar a Limpeza de Disco";
             }
         }
 

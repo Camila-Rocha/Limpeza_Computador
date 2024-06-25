@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(JanelaLimpezaPC));
             tituloHeader = new Label();
-            linkExcluirChavesCriadas = new LinkLabel();
+            LinkExcluirChavesCriadas = new LinkLabel();
             panelFooter = new Panel();
             btnVoltar = new Button();
             btnContinuar = new Button();
@@ -49,17 +49,17 @@
             tituloHeader.TabIndex = 1;
             tituloHeader.Text = "Selecione as opções que deseja executar";
             // 
-            // linkExcluirChavesCriadas
+            // LinkExcluirChavesCriadas
             // 
-            linkExcluirChavesCriadas.AutoSize = true;
-            linkExcluirChavesCriadas.LinkColor = Color.FromArgb(192, 0, 0);
-            linkExcluirChavesCriadas.Location = new Point(500, 28);
-            linkExcluirChavesCriadas.Name = "linkExcluirChavesCriadas";
-            linkExcluirChavesCriadas.Size = new Size(137, 20);
-            linkExcluirChavesCriadas.TabIndex = 0;
-            linkExcluirChavesCriadas.TabStop = true;
-            linkExcluirChavesCriadas.Text = "Excluir Chaves Criadas";
-            linkExcluirChavesCriadas.LinkClicked += LinkExcluirChavesCriadas_LinkClicked;
+            LinkExcluirChavesCriadas.AutoSize = true;
+            LinkExcluirChavesCriadas.LinkColor = Color.FromArgb(192, 0, 0);
+            LinkExcluirChavesCriadas.Location = new Point(500, 28);
+            LinkExcluirChavesCriadas.Name = "LinkExcluirChavesCriadas";
+            LinkExcluirChavesCriadas.Size = new Size(137, 20);
+            LinkExcluirChavesCriadas.TabIndex = 0;
+            LinkExcluirChavesCriadas.TabStop = true;
+            LinkExcluirChavesCriadas.Text = "Excluir Chaves Criadas";
+            LinkExcluirChavesCriadas.LinkClicked += LinkExcluirChavesCriadas_LinkClicked;
             // 
             // panelFooter
             // 
@@ -79,7 +79,7 @@
             btnVoltar.TabIndex = 1;
             btnVoltar.Text = "Voltar";
             btnVoltar.UseVisualStyleBackColor = true;
-            btnVoltar.Click += btnVoltar_Click;
+            btnVoltar.Click += BtnVoltar_Click;
             // 
             // btnContinuar
             // 
@@ -96,7 +96,7 @@
             // 
             panelHeader.BackColor = SystemColors.Menu;
             panelHeader.Controls.Add(tituloHeader);
-            panelHeader.Controls.Add(linkExcluirChavesCriadas);
+            panelHeader.Controls.Add(LinkExcluirChavesCriadas);
             panelHeader.Location = new Point(1, 2);
             panelHeader.Name = "panelHeader";
             panelHeader.Size = new Size(680, 73);
@@ -125,7 +125,7 @@
         #endregion
 
         private Label tituloHeader;
-        private LinkLabel linkExcluirChavesCriadas;
+        private LinkLabel LinkExcluirChavesCriadas;
         private Panel panelFooter;
         private Button btnVoltar;
         private Button btnContinuar;

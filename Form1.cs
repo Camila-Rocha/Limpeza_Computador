@@ -15,15 +15,20 @@ namespace ProjetoLimpezaDePCRefatoracao
 
         private Dictionary<string, string> TextosOpcoes { get; set; }
         private List<Opcao> OpcoesESubOpcoesCriadas { get; set; } = new();
-
+        private Dictionary<CheckBox, Func<string>> MetodoCorrespondenteOpcoesSelecionadas { get; set; } = new();
         private static string CaminhoArquivoJson { get; set; } = @"C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\Configs\appConfig.json";
         private static string TextoJson { get; set; } = File.ReadAllText(CaminhoArquivoJson);
         private JObject JsonObj { get; set; } = JObject.Parse(TextoJson);
         public JanelaLimpezaPC()
         {
+            MetodosAuxiliares metodosAuxiliares = new MetodosAuxiliares();
             InitializeComponent();
             CriarPanelsBody();
             btnVoltar.Enabled = false;
+            metodosAuxiliares.CriaPastaEArquivo();
+            MetodosExecucao metodosExecucao = new MetodosExecucao();
+            MessageBox.Show(metodosExecucao.ExecutaLimpezaLogWindows());
+      
         }
 
         private void CriarPanelsBody()
@@ -244,104 +249,100 @@ namespace ProjetoLimpezaDePCRefatoracao
         }
 
         private void BtnContinuar_Click(object sender, EventArgs e)
-        {
-            Dictionary<CheckBox, Action> metodoCorrespondenteOpcoesSelecionadas = new();
+        {           
+            MetodosExecucao metodosExecucao = new();
+            HelperIdentificadorComponenteAtivo(true);
 
-            MetodosExecucao metodosExecucao = new MetodosExecucao();
-
-            for (int posicao = 0; posicao < OpcoesESubOpcoesCriadas.Count(); posicao++)
+            if (Panel_2_Body.Enabled)
             {
-                if (OpcoesESubOpcoesCriadas[posicao].CheckBox.Checked)
+                MetodoCorrespondenteOpcoesSelecionadas.Clear();
+                for (int posicao = 0; posicao < OpcoesESubOpcoesCriadas.Count(); posicao++)
                 {
-                    switch (posicao)
+                    if (OpcoesESubOpcoesCriadas[posicao].CheckBox.Checked)
                     {
-                        case 0:
-                            metodoCorrespondenteOpcoesSelecionadas.Add(OpcoesESubOpcoesCriadas[0].CheckBox, metodosExecucao.ExecutarLimpezaArquivosTemporarios);
-                            break;
+                        switch (posicao)
+                        {
+                            case 0:
+                                MetodoCorrespondenteOpcoesSelecionadas.Add(OpcoesESubOpcoesCriadas[0].CheckBox, metodosExecucao.ExecutarLimpezaArquivosTemporarios);
+                                break;
 
-                        case 1:
-                            foreach (RadioButton r in OpcoesESubOpcoesCriadas[1].RadioButtons)
-                            {
-                                if (r.Checked)
+                            case 1:
+                                foreach (RadioButton r in OpcoesESubOpcoesCriadas[1].RadioButtons)
                                 {
-                                    if (r.Text == JsonObj["radioButton1"].ToString())
+                                    if (r.Checked)
                                     {
-                                        metodoCorrespondenteOpcoesSelecionadas.Add(OpcoesESubOpcoesCriadas[1].CheckBox, metodosExecucao.ExecutarLimpezaDeDiscoPadrão);
-                                        break;
-                                    }
-                                    if (r.Text == JsonObj["radioButton2"].ToString())
-                                    {
-                                        metodoCorrespondenteOpcoesSelecionadas.Add(OpcoesESubOpcoesCriadas[1].CheckBox, metodosExecucao.ExecutarLimpezaComConfigManual);
-                                        break;
-                                    }
-                                    if (r.Text == JsonObj["radioButton3"].ToString())
-                                    {
-                                        metodoCorrespondenteOpcoesSelecionadas.Add(OpcoesESubOpcoesCriadas[1].CheckBox, metodosExecucao.ExecutarLimpezaDeDiscoComChaveExistente);
-                                        break;
+                                        if (r.Text == JsonObj["radioButton1"].ToString())
+                                        {
+                                            MetodoCorrespondenteOpcoesSelecionadas.Add(OpcoesESubOpcoesCriadas[1].CheckBox, metodosExecucao.ExecutarLimpezaDeDiscoPadrão);
+                                            break;
+                                        }
+                                        if (r.Text == JsonObj["radioButton2"].ToString())
+                                        {
+                                            MetodoCorrespondenteOpcoesSelecionadas.Add(OpcoesESubOpcoesCriadas[1].CheckBox, metodosExecucao.ExecutarLimpezaComConfigManual);
+                                            break;
+                                        }
+                                        if (r.Text == JsonObj["radioButton3"].ToString())
+                                        {
+                                            MetodoCorrespondenteOpcoesSelecionadas.Add(OpcoesESubOpcoesCriadas[1].CheckBox, metodosExecucao.ExecutarLimpezaDeDiscoComChaveExistente);
+                                            break;
+                                        }
                                     }
                                 }
-                            }
-                            break;
+                                break;
 
-                        case 2:
-                            metodoCorrespondenteOpcoesSelecionadas.Add(OpcoesESubOpcoesCriadas[2].CheckBox, metodosExecucao.ExecutarDesfragmentacaoOuOtimizacaoDeAcordoComMidia);
-                            break;
+                            case 2:
+                                MetodoCorrespondenteOpcoesSelecionadas.Add(OpcoesESubOpcoesCriadas[2].CheckBox, metodosExecucao.ExecutarDesfragmentacaoOuOtimizacaoDeAcordoComMidia);
+                                break;
 
-                        case 3:
-                            metodoCorrespondenteOpcoesSelecionadas.Add(OpcoesESubOpcoesCriadas[3].CheckBox, metodosExecucao.ExecutarSomenteOtimizacao);
-                            break;
+                            case 3:
+                                MetodoCorrespondenteOpcoesSelecionadas.Add(OpcoesESubOpcoesCriadas[3].CheckBox, metodosExecucao.ExecutarSomenteOtimizacao);
+                                break;
+                        }
                     }
                 }
+                ComecaCriacaoPanel_2_Body(MetodoCorrespondenteOpcoesSelecionadas);
             }
-
-            HelperIdentificadorComponenteAtivo(true);
-            ComecaCriacaoPanel_2_Body(metodoCorrespondenteOpcoesSelecionadas);
+            else
+            {
+                ComecaCriacaoPanel_3_Body(MetodoCorrespondenteOpcoesSelecionadas);
+            }                                
         }
 
-        private void ComecaCriacaoPanel_2_Body(Dictionary<CheckBox, Action> metodoCorrespondenteOpcoesSelecionadas)
+        private void ComecaCriacaoPanel_2_Body(Dictionary<CheckBox, Func<string>> metodoCorrespondenteOpcoesSelecionadas)
         {
-            tituloHeader.Text = "Opções selecionadas";
-            linkExcluirChavesCriadas.Enabled = false;
-            linkExcluirChavesCriadas.Visible = false;
+            tituloHeader.Text = "O que você selecionou";
+            LinkExcluirChavesCriadas.Enabled = false;
+            LinkExcluirChavesCriadas.Visible = false;
+       
+            int localizacaoY = 0;
+            int cont = 0;
+            int espacamento = 5;
 
             Panel panelOpcoesSelecionadas = new()
             {
-                Location = new Point(0, 0),
-                Size = new Size(550, 90),
-            };
-            Panel_2_Body.Controls.Add(panelOpcoesSelecionadas);
-
-            Panel panelDescricaoOpcoes = new()
-            {
-                Location = new Point(0, panelOpcoesSelecionadas.Height + 150),
-                Size = new Size(550, 0),
+                Location = new Point(0, 0),              
                 AutoSize = true,
-                BackColor = Color.AliceBlue,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink
             };
-            Panel_2_Body.Controls.Add(panelDescricaoOpcoes);
-
-            int cont = 0;
-            int tamanho = 20;
-            int espacamento = 5;
+            Panel_2_Body.Controls.Add(panelOpcoesSelecionadas);                  
 
             foreach (var opcao in metodoCorrespondenteOpcoesSelecionadas)
             {
                 Panel panelOpcao = new()
                 {
-                    Location = new Point(0, tamanho * cont + espacamento),
-                    Size = new Size(550, tamanho)
+                    Location = new Point(0, cont * espacamento + localizacaoY ),
+                    AutoSize = true,
+                    AutoSizeMode = AutoSizeMode.GrowAndShrink
                 };
-
                 panelOpcoesSelecionadas.Controls.Add(panelOpcao);
 
                 Label opcaoEscolhida = new()
                 {
                     Text = opcao.Key.Text,
                     AutoSize = true,
-                    MaximumSize = new Size(550, 0),
+                    MaximumSize = new Size(540, 0),
                     ForeColor = Opcao.CoresCadaOpcao[cont],
-                    Font = new Font(Font.FontFamily, 12, FontStyle.Bold),
-
+                    Font = new Font(Font.FontFamily, 10, FontStyle.Bold)
                 };
 
                 if (opcao.Key.Text == JsonObj["checkBox2"].ToString())
@@ -354,12 +355,42 @@ namespace ProjetoLimpezaDePCRefatoracao
                         }
                     }
                 }
-                espacamento += espacamento;
-                panelOpcao.Controls.Add(opcaoEscolhida);
-                cont++;
-            }
 
-            List<Panel> ContemPanelsDescricao = new();
+                panelOpcao.Controls.Add(opcaoEscolhida);
+                localizacaoY += panelOpcao.Height;               
+                cont++;
+            } // primeiro panel pronto
+
+            Panel panelTituloDescricao = new()
+            {
+                Location = new Point(0, panelOpcoesSelecionadas.Height + 30),
+                Size = new Size(550, 0),
+                AutoSize = true
+            };
+            Panel_2_Body.Controls.Add(panelTituloDescricao);
+
+            Label LabelTituloDescricao = new()
+            {
+                Location = new Point(0, 0),
+                Text = "Descrição das seleções",
+                Font = new Font(Font.FontFamily, 13, FontStyle.Bold),
+                AutoSize = true
+            };
+            panelTituloDescricao.Controls.Add(LabelTituloDescricao);
+
+            //terminei titulo descrição
+
+            int tamanhoPanelOpcoes_PanelTituloDescricao = panelOpcoesSelecionadas.Height + panelTituloDescricao.Height + 
+                (metodoCorrespondenteOpcoesSelecionadas.Count * espacamento) + 30 ;
+            Panel panelDescricaoOpcoes = new()
+            {
+                Location = new Point(0, tamanhoPanelOpcoes_PanelTituloDescricao + espacamento),
+                Size = new Size(550, 0),
+                AutoSize = true
+            };
+            Panel_2_Body.Controls.Add(panelDescricaoOpcoes);
+
+            List<Panel> PanelsDescricao = [];
             int alturaPanelDescricao = 0;
             int contador = 0;
             cont = 0;
@@ -371,44 +402,46 @@ namespace ProjetoLimpezaDePCRefatoracao
                 {
                     if (textoOpcao.Key == opcaoSelecionada.Key.Text)
                     {
-                        if (ContemPanelsDescricao.Count == 0)
+                        if (PanelsDescricao.Count == 0)
                         {
-                            Panel panelContemDescricao_1 = new()
+                            Panel panelContemDescricao_primeiro = new()
                             {
                                 Location = new Point(0, 0),
                                 AutoSize = true,
                                 AutoSizeMode = AutoSizeMode.GrowAndShrink
                             };
-                            ContemPanelsDescricao.Add(panelContemDescricao_1);
-                            panelDescricaoOpcoes.Controls.Add(panelContemDescricao_1);
+                            PanelsDescricao.Add(panelContemDescricao_primeiro);
+                            panelDescricaoOpcoes.Controls.Add(panelContemDescricao_primeiro);
 
                             Label labelDescricao = new()
                             {
                                 Text = textoOpcao.Value,
                                 AutoSize = true,
-                                MaximumSize = new Size(550, 0),
+                                Font = new Font(Font.FontFamily, 9, FontStyle.Bold),
+                                MaximumSize = new Size(540, 0),
                                 ForeColor = Opcao.CoresCadaOpcao[cont]
                             };
-                            panelContemDescricao_1.Controls.Add(labelDescricao);
+                            panelContemDescricao_primeiro.Controls.Add(labelDescricao);
                         }
                         else
                         {
-                            alturaPanelDescricao += ContemPanelsDescricao[contador].Height;
+                            alturaPanelDescricao += PanelsDescricao[contador].Height;
                             Panel panelContemDescricao = new()
                             {
                                 Location = new Point(0, alturaPanelDescricao + espacamento),
                                 AutoSize = true,
                                 AutoSizeMode = AutoSizeMode.GrowAndShrink
                             };
-                            ContemPanelsDescricao.Add(panelContemDescricao);
+                            PanelsDescricao.Add(panelContemDescricao);
                             panelDescricaoOpcoes.Controls.Add(panelContemDescricao);
 
                             Label labelDescricao = new()
                             {
                                 Text = textoOpcao.Value,
                                 AutoSize = true,
-                                MaximumSize = new Size(550, 0),
-                                ForeColor = Opcao.CoresCadaOpcao[cont]
+                                MaximumSize = new Size(540, 0),
+                                ForeColor = Opcao.CoresCadaOpcao[cont],
+                                Font = new Font(Font.FontFamily, 9, FontStyle.Bold)
                             };
                             panelContemDescricao.Controls.Add(labelDescricao);
                             contador++;
@@ -420,7 +453,25 @@ namespace ProjetoLimpezaDePCRefatoracao
             }
         }
 
-        private void btnVoltar_Click(object sender, EventArgs e)
+        private void ComecaCriacaoPanel_3_Body(Dictionary<CheckBox, Func<string>> metodoCorrespondenteOpcoesSelecionadas)
+        {
+            foreach(var metodo in metodoCorrespondenteOpcoesSelecionadas)
+            {
+                Panel panelResultado = new()
+                {
+                    AutoSize = true,
+                    AutoSizeMode = AutoSizeMode.GrowAndShrink
+                };
+
+                Label labelResultado = new()
+                {
+                    Text = $"{metodo.Value}"
+                };
+                Panel_3_Body.Controls.Add(panelResultado);
+                panelResultado.Controls.Add(labelResultado);
+            }
+        }
+        private void BtnVoltar_Click(object sender, EventArgs e)
         {
             HelperIdentificadorComponenteAtivo(false);
         }
@@ -451,16 +502,18 @@ namespace ProjetoLimpezaDePCRefatoracao
                     btnContinuar.Text = "Finalizar";
                     btnVoltar.Enabled = false;
                     btnVoltar.Visible = false;
+                    tituloHeader.Text = "Resumo da execução";
                 }
                 else
                 {
                     Panel_2_Body.Visible = false;
                     Panel_2_Body.Enabled = false;
+                    Panel_2_Body.Controls.Clear();
                     Panel_1_Body.Visible = true;
                     Panel_1_Body.Enabled = true;
                     btnVoltar.Enabled = false;
                     btnContinuar.Text = "Continuar";
-                    tituloHeader.Text = "Selecione as opções que deseja executar";
+                    tituloHeader.Text = "Selecione as opções que deseja executar";                                      
                 }
             }
             else if (Panel_3_Body.Enabled)
@@ -471,7 +524,8 @@ namespace ProjetoLimpezaDePCRefatoracao
 
         private void LinkExcluirChavesCriadas_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-
+            MetodosAuxiliares metodosAuxiliares = new MetodosAuxiliares();
+            metodosAuxiliares.ApagaPasta_ChaveRegistro();
         }
     }
 }

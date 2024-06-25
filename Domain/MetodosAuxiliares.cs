@@ -131,4 +131,44 @@ public class MetodosAuxiliares
         }
         return false;
     }
+
+    public void ApagaPasta_ChaveRegistro()
+    {
+        string pastaCache = CaminhoPastaCache();
+        string arquivoChave = CaminhoArquivoChave();
+        if(File.Exists(arquivoChave)) 
+        {
+            string[] linhas = File.ReadAllLines(CaminhoArquivoChave());
+            string chaveDoArquivo;
+            string unidade = BuscarUnidadeQueContemSistemaOperacional();
+            if (!VerificarSeArquivoChaveEstaVazio())
+            {
+                chaveDoArquivo = linhas[0];
+
+                if (File.Exists(arquivoChave))
+                {
+                    if (VerificarSeChaveExisteNoRegistroDoWindows(chaveDoArquivo) == true)
+                    {
+                        Registry.CurrentUser.DeleteSubKeyTree($@"Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU\DiskCleanup\{unidade}\{chaveDoArquivo}");
+                    }
+                }              
+            }
+            if (Directory.Exists(pastaCache))
+            {
+                Directory.Delete(pastaCache, true);
+            }
+            if(File.Exists(arquivoChave) || Directory.Exists(pastaCache))
+            {
+                MessageBox.Show("Configurações formatadas com sucesso!");
+            }
+            else
+            {
+                MessageBox.Show("Nenhum dado para ser formatado");
+            }
+        }
+        else
+        {
+            MessageBox.Show("Nenhum dado para ser formatado");
+        }       
+    }
 }
