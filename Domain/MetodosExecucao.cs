@@ -4,42 +4,7 @@ using System.Diagnostics;
 namespace ProjetoLimpezaDePCRefatoracao.Domain
 {
     internal class MetodosExecucao : MetodosAuxiliares
-    {  
-        public string ExecutaLimpezaLogWindows()
-        {
-            string logName = "Application"; 
-            DateTime thresholdDate = DateTime.Now.AddDays(-30);         
-
-            try
-            {
-                // Verifica se o log especificado existe
-                if (EventLog.Exists(logName))
-                {
-                    // Cria um objeto EventLog associado ao log especificado
-                    using (EventLog eventLog = new EventLog(logName))
-                    {
-                        // Itera através das entradas do log
-                        foreach (EventLogEntry entry in eventLog.Entries)
-                        {
-                            // Verifica se a data da entrada é anterior à data limite                          
-                                // Exibe ou processa a entrada conforme necessário
-                                return $"Data: {entry.TimeGenerated}, Tipo: {entry.EntryType}, Fonte: {entry.Source}, Mensagem: {entry.Message}";
-                            
-                        }
-                    }
-                    return "nada";
-                }
-
-                else
-                {
-                    return $"O log {logName} não existe.";
-                }
-            }
-            catch (Exception ex)
-            {
-                return $"Erro ao tentar acessar o log {logName}: {ex.Message}";
-            }
-        }
+    {         
         public string ExecutarLimpezaArquivosTemporarios()
         {
             int contPastas = 0;
@@ -217,7 +182,9 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
             try
             {
                 string unidade = BuscarUnidadeQueContemSistemaOperacional();
-                Process.Start("cleanmgr", $"/d {unidade} /c /sagerun: /verylowdisk");
+                Process processoCleanmgr = Process.Start("cleanmgr", $"/d {unidade} /c /sagerun: /verylowdisk");
+
+                //processoCleanmgr.WaitForExit();
 
                 return "Limpeza de disco executada com sucesso!";
             }
@@ -246,9 +213,11 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
 
         public string ExecutarLimpezaDeDiscoBase(string unidade, string chave)
         {
-            Process processoCleanmgr = Process.Start("cleanmgr", $"/sageset:{chave} /d {unidade}");
+            // fazer uma verificação aqui para executar ditero quando houver chave
             try
             {
+                Process processoCleanmgr = Process.Start("cleanmgr", $"/sageset:{chave} /d {unidade}"); //abre a janela para selecionar as opções
+
                 if (processoCleanmgr == null)
                 {
                     return "Chave não existe";
@@ -256,19 +225,17 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
 
                 processoCleanmgr.WaitForExit();
 
-                var subprocessos = from proc in Process.GetProcesses()
-                                   where PegaIdProcessoPai(proc.Id) == processoCleanmgr.Id
-                                   select proc;
+                //var subprocessos = Subprocessos(processoCleanmgr);
 
-                subprocessos = subprocessos.ToArray();
+                //foreach (var childProcess in subprocessos)
+                //{
+                //    childProcess.WaitForExit();
+                //}
 
-                foreach (var childProcess in subprocessos)
-                {
-                    childProcess.WaitForExit();
-                }
+                var processoSagerun = Process.Start("cleanmgr", $"sagerun:{chave}");
 
-                Process.Start("cleanmgr", $"sagerun:{chave}");
-
+                processoSagerun.WaitForExit();
+              
                 using (RegistryKey key = Registry.CurrentUser.CreateSubKey($@"Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU\DiskCleanup\{unidade}\{chave}"))
                 {
                     key.SetValue("Settings", $"/sagerun:{chave}");
@@ -300,6 +267,14 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
             }
 
             return IdPai;
+        }
+        public Process[] Subprocessos(Process processoCleanmgr)
+        {
+            var subprocessos = from proc in Process.GetProcesses()
+                               where PegaIdProcessoPai(proc.Id) == processoCleanmgr.Id
+                               select proc;
+
+            return subprocessos.ToArray();
         }
 
     }

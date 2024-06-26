@@ -25,10 +25,7 @@ namespace ProjetoLimpezaDePCRefatoracao
             InitializeComponent();
             CriarPanelsBody();
             btnVoltar.Enabled = false;
-            metodosAuxiliares.CriaPastaEArquivo();
-            MetodosExecucao metodosExecucao = new MetodosExecucao();
-            MessageBox.Show(metodosExecucao.ExecutaLimpezaLogWindows());
-      
+            metodosAuxiliares.CriaPastaEArquivo();           
         }
 
         private void CriarPanelsBody()
@@ -82,8 +79,8 @@ namespace ProjetoLimpezaDePCRefatoracao
                 { JsonObj["checkBox1"]!.ToString(), "Serão excluídos apenas Arquivos temporários:\r\nPasta Temp do usuário\r\nPasta Download e Temp do Windows\r\nPasta Recent" },
                 { JsonObj["checkBox2"]!.ToString(), "Executa a Limpeza de Disco do Windows\r\nVocê pode executar:\r\nLimpeza de Disco Padrão - Funcionalidade mais básica de limpeza,\r\nLimpeza de Disco Personalizada - Abre a janela de Limpeza de Disco para que selecione os arquivos que deseja limpar manualmente\r\nÚltima Limpeza Personalizada realizada - Executa a Limpeza com as mesmas seleções escolhidas na última Limpeza de Disco Personalizada executada." },
                 { JsonObj["checkBox3"]!.ToString(), "Executa a Desfragmentação e Otimização em caso de HDD e Otimização em caso de SSD" },
-                { JsonObj["checkBox4"]!.ToString(), "Executa somente Otimização de Disco - recomendado para SSD" },
-                { JsonObj["checkBox5"]!.ToString(), "Executa Limpeza de Log do Windows - (INDISPONÍVEL)" }
+                { JsonObj["checkBox4"]!.ToString(), "Executa somente Otimização de Disco - recomendado para SSD" }
+                //{ JsonObj["checkBox5"]!.ToString(), "Executa Limpeza de Log do Windows - (INDISPONÍVEL)" }
             };
 
                 int posicaoOpcao = 0;
@@ -250,8 +247,8 @@ namespace ProjetoLimpezaDePCRefatoracao
 
         private void BtnContinuar_Click(object sender, EventArgs e)
         {           
-            MetodosExecucao metodosExecucao = new();
             HelperIdentificadorComponenteAtivo(true);
+            MetodosExecucao metodosExecucao = new();            
 
             if (Panel_2_Body.Enabled)
             {
@@ -304,8 +301,10 @@ namespace ProjetoLimpezaDePCRefatoracao
             }
             else
             {
-                ComecaCriacaoPanel_3_Body(MetodoCorrespondenteOpcoesSelecionadas);
-            }                                
+               ComecaCriacaoPanel_3_Body(MetodoCorrespondenteOpcoesSelecionadas);
+                tituloHeader.Text = "Resumo da execução";
+                btnContinuar.Enabled = true;
+            }
         }
 
         private void ComecaCriacaoPanel_2_Body(Dictionary<CheckBox, Func<string>> metodoCorrespondenteOpcoesSelecionadas)
@@ -313,24 +312,24 @@ namespace ProjetoLimpezaDePCRefatoracao
             tituloHeader.Text = "O que você selecionou";
             LinkExcluirChavesCriadas.Enabled = false;
             LinkExcluirChavesCriadas.Visible = false;
-       
+
             int localizacaoY = 0;
             int cont = 0;
             int espacamento = 5;
 
             Panel panelOpcoesSelecionadas = new()
             {
-                Location = new Point(0, 0),              
+                Location = new Point(0, 0),
                 AutoSize = true,
                 AutoSizeMode = AutoSizeMode.GrowAndShrink
             };
-            Panel_2_Body.Controls.Add(panelOpcoesSelecionadas);                  
+            Panel_2_Body.Controls.Add(panelOpcoesSelecionadas);
 
             foreach (var opcao in metodoCorrespondenteOpcoesSelecionadas)
             {
                 Panel panelOpcao = new()
                 {
-                    Location = new Point(0, cont * espacamento + localizacaoY ),
+                    Location = new Point(0, cont * espacamento + localizacaoY),
                     AutoSize = true,
                     AutoSizeMode = AutoSizeMode.GrowAndShrink
                 };
@@ -357,7 +356,7 @@ namespace ProjetoLimpezaDePCRefatoracao
                 }
 
                 panelOpcao.Controls.Add(opcaoEscolhida);
-                localizacaoY += panelOpcao.Height;               
+                localizacaoY += panelOpcao.Height;
                 cont++;
             } // primeiro panel pronto
 
@@ -380,8 +379,8 @@ namespace ProjetoLimpezaDePCRefatoracao
 
             //terminei titulo descrição
 
-            int tamanhoPanelOpcoes_PanelTituloDescricao = panelOpcoesSelecionadas.Height + panelTituloDescricao.Height + 
-                (metodoCorrespondenteOpcoesSelecionadas.Count * espacamento) + 30 ;
+            int tamanhoPanelOpcoes_PanelTituloDescricao = panelOpcoesSelecionadas.Height + panelTituloDescricao.Height +
+                (metodoCorrespondenteOpcoesSelecionadas.Count * espacamento) + 30;
             Panel panelDescricaoOpcoes = new()
             {
                 Location = new Point(0, tamanhoPanelOpcoes_PanelTituloDescricao + espacamento),
@@ -455,20 +454,32 @@ namespace ProjetoLimpezaDePCRefatoracao
 
         private void ComecaCriacaoPanel_3_Body(Dictionary<CheckBox, Func<string>> metodoCorrespondenteOpcoesSelecionadas)
         {
-            foreach(var metodo in metodoCorrespondenteOpcoesSelecionadas)
+            List<Panel> panelsResultadoExecucao = new();
+            int contador = 0;
+            int espacamento = 10;
+            int localizacaoY = 0;
+
+            foreach (var metodo in metodoCorrespondenteOpcoesSelecionadas)
             {
                 Panel panelResultado = new()
                 {
+                    Location = new Point(0, contador * espacamento + localizacaoY),
                     AutoSize = true,
                     AutoSizeMode = AutoSizeMode.GrowAndShrink
                 };
-
-                Label labelResultado = new()
-                {
-                    Text = $"{metodo.Value}"
-                };
+                panelsResultadoExecucao.Add(panelResultado);
                 Panel_3_Body.Controls.Add(panelResultado);
-                panelResultado.Controls.Add(labelResultado);
+
+                Label resultadoExecucao = new()
+                {
+                    Text = metodo.Value(),
+                    AutoSize = true,
+                    MaximumSize = new Size(540, 0),
+                    Font = new Font(Font.FontFamily, 13)
+                };
+                panelResultado.Controls.Add(resultadoExecucao);
+
+                localizacaoY += panelResultado.Height;
             }
         }
         private void BtnVoltar_Click(object sender, EventArgs e)
@@ -495,14 +506,16 @@ namespace ProjetoLimpezaDePCRefatoracao
             {
                 if (isContinuar)
                 {
+                    tituloHeader.Text = "Processando... Aguarde";
                     Panel_2_Body.Visible = false;
                     Panel_2_Body.Enabled = false;
                     Panel_3_Body.Visible = true;
                     Panel_3_Body.Enabled = true;
                     btnContinuar.Text = "Finalizar";
+                    btnContinuar.Enabled = false;
                     btnVoltar.Enabled = false;
                     btnVoltar.Visible = false;
-                    tituloHeader.Text = "Resumo da execução";
+                   
                 }
                 else
                 {
@@ -513,7 +526,7 @@ namespace ProjetoLimpezaDePCRefatoracao
                     Panel_1_Body.Enabled = true;
                     btnVoltar.Enabled = false;
                     btnContinuar.Text = "Continuar";
-                    tituloHeader.Text = "Selecione as opções que deseja executar";                                      
+                    tituloHeader.Text = "Selecione as opções que deseja executar";
                 }
             }
             else if (Panel_3_Body.Enabled)
