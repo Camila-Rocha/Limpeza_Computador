@@ -4,21 +4,21 @@ using System.Diagnostics;
 namespace ProjetoLimpezaDePCRefatoracao.Domain
 {
     internal class MetodosExecucao : MetodosAuxiliares
-    {         
+    {
         public string ExecutarLimpezaArquivosTemporarios()
         {
             int contPastas = 0;
             int contArquivos = 0;
 
-            string usuarioDoSistema = Environment.UserName;            
+            string usuarioDoSistema = Environment.UserName;
             string[] caminhosPastas =
-            {                
+            {
                 $@"C:\Users\{usuarioDoSistema}\AppData\Local\Temp",
                 $@"C:\Windows\SoftwareDistribution\Download",
                 $@"C:\Windows\Temp",
                 Environment.GetFolderPath(Environment.SpecialFolder.Recent)
             };
-            
+
             try
             {
                 foreach (string caminho in caminhosPastas)
@@ -38,7 +38,7 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
                             continue;
                         }
                     }
-                    
+
                     foreach (string pasta in pastas)
                     {
                         try
@@ -59,7 +59,7 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
             {
                 MessageBox.Show(ex.Message);
                 return "Erro ao executar limpeza de arquivos temporários";
-            }           
+            }
         }
 
         public string ExecutarDesfragmentacaoOuOtimizacaoDeAcordoComMidia()
@@ -73,7 +73,7 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
                 {
                     process.StartInfo.UseShellExecute = false;
                     process.StartInfo.FileName = "defrag";
-                    process.StartInfo.Arguments = $"{unidade}: /o";
+                    process.StartInfo.Arguments = $"{unidade}: /o /v";
                     process.StartInfo.CreateNoWindow = true;
                     process.StartInfo.RedirectStandardOutput = true;
                     process.StartInfo.StandardOutputEncoding = System.Text.Encoding.UTF8;
@@ -81,7 +81,7 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
                     process.Start();
                     resultadoOtimizacaoDesfragmentacao = process.StandardOutput.ReadToEnd();
                     process.WaitForExit();
-
+                    resultadoOtimizacaoDesfragmentacao = EditarTextoComSimbolosAlterados(resultadoOtimizacaoDesfragmentacao);
                     return resultadoOtimizacaoDesfragmentacao;
                 }
             }
@@ -96,21 +96,23 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
         public string ExecutarSomenteOtimizacao()
         {
             string unidade = BuscarUnidadeQueContemSistemaOperacional();
-            string resultadoOtimizacao;
+            string resultadoOtimizacao = string.Empty;
             try
             {
                 using (Process process = new())
                 {
                     process.StartInfo.UseShellExecute = false;
                     process.StartInfo.FileName = "defrag";
-                    process.StartInfo.Arguments = $"{unidade}: /l";
+                    process.StartInfo.Arguments = $"{unidade}: /l /v";
                     process.StartInfo.CreateNoWindow = true;
                     process.StartInfo.RedirectStandardOutput = true;
                     process.StartInfo.StandardOutputEncoding = System.Text.Encoding.UTF8;
-
                     process.Start();
-                    resultadoOtimizacao = process.StandardOutput.ReadToEnd();
+                    resultadoOtimizacao = process.StandardOutput.ReadToEnd();                              
+
                     process.WaitForExit();
+
+                    resultadoOtimizacao = EditarTextoComSimbolosAlterados(resultadoOtimizacao);
 
                     return resultadoOtimizacao;
                 }
@@ -125,6 +127,7 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
 
         public string ExecutarLimpezaComConfigManual()
         {
+            bool chaveExistente = false;
             int chave = 1000;
             string unidade = BuscarUnidadeQueContemSistemaOperacional();
 
@@ -136,7 +139,7 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
                     {
                         GravarChaveEmArquivo(chave.ToString());
 
-                        return ExecutarLimpezaDeDiscoBase(unidade, chave.ToString());                                              
+                        return ExecutarLimpezaDeDiscoBase(unidade, chave.ToString(), chaveExistente);
                     }
                     else
                     {
@@ -144,9 +147,8 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
                     }
                 }
 
-                while (true);              
+                while (true);
             }
-
             else
             {
                 for (; ; )
@@ -160,14 +162,14 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
                         {
                             Registry.CurrentUser.DeleteSubKeyTree($@"Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU\DiskCleanup\{unidade}\{chaveDoArquivo}");
                             GravarChaveEmArquivo(chaveDoArquivo);
-                            return ExecutarLimpezaDeDiscoBase(unidade, chaveDoArquivo);
+                            return ExecutarLimpezaDeDiscoBase(unidade, chaveDoArquivo, chaveExistente);
                         }
                         else
                         {
                             GravarChaveEmArquivo(chaveDoArquivo);
-                            return ExecutarLimpezaDeDiscoBase(unidade, chaveDoArquivo);                           
+                            return ExecutarLimpezaDeDiscoBase(unidade, chaveDoArquivo, chaveExistente);
                         }
-                        
+
                     }
                     catch (Exception ex)
                     {
@@ -182,11 +184,13 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
             try
             {
                 string unidade = BuscarUnidadeQueContemSistemaOperacional();
-                Process processoCleanmgr = Process.Start("cleanmgr", $"/d {unidade} /c /sagerun: /verylowdisk");
+                using (Process processoCleanmgr = Process.Start(new ProcessStartInfo("cleanmgr", $"/d {unidade} /c /sagerun: /verylowdisk")))
+                {
+                    processoCleanmgr.WaitForExit();
+                    processoCleanmgr.Dispose();
+                }
+                return $"Limpeza de disco executada com sucesso!";
 
-                //processoCleanmgr.WaitForExit();
-
-                return "Limpeza de disco executada com sucesso!";
             }
             catch (Exception ex)
             {
@@ -196,14 +200,14 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
 
         public string ExecutarLimpezaDeDiscoComChaveExistente()
         {
+            bool chaveExistente = true;
             string unidade = BuscarUnidadeQueContemSistemaOperacional();
 
             if (VerificarSeArquivoChaveEstaVazio() == false)
             {
                 string[] linhas = File.ReadAllLines(CaminhoArquivoChave());
                 string chaveDoArquivo = linhas[0];
-                return ExecutarLimpezaDeDiscoBase(unidade, chaveDoArquivo);
-                
+                return ExecutarLimpezaDeDiscoBase(unidade, chaveDoArquivo, chaveExistente);
             }
             else
             {
@@ -211,71 +215,80 @@ namespace ProjetoLimpezaDePCRefatoracao.Domain
             }
         }
 
-        public string ExecutarLimpezaDeDiscoBase(string unidade, string chave)
+        public string ExecutarLimpezaDeDiscoBase(string unidade, string chave, bool chaveExistente)
         {
-            // fazer uma verificação aqui para executar ditero quando houver chave
-            try
+            if (chaveExistente == false)
             {
-                Process processoCleanmgr = Process.Start("cleanmgr", $"/sageset:{chave} /d {unidade}"); //abre a janela para selecionar as opções
-
-                if (processoCleanmgr == null)
+                try
                 {
-                    return "Chave não existe";
+                    using (Process processoCleanmgr = Process.Start(new ProcessStartInfo("cleanmgr", $"/sageset: {chave} /d {unidade}")))
+                    {
+                        processoCleanmgr.WaitForExit();
+
+                    }
+
+                    using (RegistryKey key = Registry.CurrentUser.CreateSubKey($@"Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU\DiskCleanup\{unidade}\{chave}"))
+                    {
+                        key.SetValue("Settings", $"/sagerun:{chave}");
+                    }
+
+                    using (Process processoSagerun = Process.Start(new ProcessStartInfo("cleanmgr", $"sagerun:{chave}")))
+                    {
+                        processoSagerun.WaitForExit();
+                    }
+
+                    return "Limpeza de disco Personalizada executada com sucesso!";
                 }
-
-                processoCleanmgr.WaitForExit();
-
-                //var subprocessos = Subprocessos(processoCleanmgr);
-
-                //foreach (var childProcess in subprocessos)
-                //{
-                //    childProcess.WaitForExit();
-                //}
-
-                var processoSagerun = Process.Start("cleanmgr", $"sagerun:{chave}");
-
-                processoSagerun.WaitForExit();
-              
-                using (RegistryKey key = Registry.CurrentUser.CreateSubKey($@"Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU\DiskCleanup\{unidade}\{chave}"))
+                catch (Exception ex)
                 {
-                    key.SetValue("Settings", $"/sagerun:{chave}");
-                }
-
-                return "Limpeza de disco executada com sucesso!";
-            }
-            catch (Exception ex)
-            {
-                return $"{ex}: Erro ao tentar executar a Limpeza de Disco";
-            }
-        }
-
-        public int PegaIdProcessoPai(int id)
-        {
-            int IdPai = 0;
-            try
-            {
-                using (var mo = new System.Management.ManagementObject($"win32_process.handle='{id}'"))
-                {
-                    mo.Get();
-                    IdPai = Convert.ToInt32(mo["ParentProcessId"]);
+                    return $"{ex}: Erro ao tentar executar a Limpeza de Disco";
                 }
             }
-
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine($"Erro ao obter o ID do processo pai: {ex.Message}");
+                try
+                {
+                    using (Process processoSagerun = Process.Start(new ProcessStartInfo("cleanmgr", $"sagerun:{chave}") { UseShellExecute = true }))
+                    {
+                        processoSagerun.WaitForExit();
+
+                    }
+
+                    using (RegistryKey key = Registry.CurrentUser.CreateSubKey($@"Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU\DiskCleanup\{unidade}\{chave}"))
+                    {
+                        key.SetValue("Settings", $"/sagerun:{chave}");
+                    }
+
+                    return "Limpeza de disco com última configuração executada com sucesso!";
+                }
+                catch (Exception ex)
+                {
+                    return $"{ex}: Erro ao tentar executar a Limpeza de Disco";
+                }
+
             }
 
-            return IdPai;
         }
-        public Process[] Subprocessos(Process processoCleanmgr)
+
+        public string EditarTextoComSimbolosAlterados(String texto)
         {
-            var subprocessos = from proc in Process.GetProcesses()
-                               where PegaIdProcessoPai(proc.Id) == processoCleanmgr.Id
-                               select proc;
+            Dictionary<string, string> substituicoes = new Dictionary<string, string>
+                    {
+                        { "opera��o", "operação" },
+                        { "�xito", "êxito" },
+                        { "conclu�da", "concluída" },
+                        { "Informa��es", "Informações" },
+                        { "Espa�o", "Espaço" },
+                        { "Aloca��es", "Alocações" },
+                        { "compat�veis", "Compatíveis" }
+                    };
 
-            return subprocessos.ToArray();
+            foreach (var substituicao in substituicoes)
+            {
+                texto = texto.Replace(substituicao.Key, substituicao.Value);
+            }
+
+            return texto;
         }
-
     }
 }

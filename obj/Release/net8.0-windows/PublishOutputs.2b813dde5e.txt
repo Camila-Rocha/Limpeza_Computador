@@ -1,0 +1,16 @@
+C:\Users\stude\OneDrive\Área de Trabalho\PROGRAMA\ProjetoLimpezaDePCRefatoracao.exe
+C:\Users\stude\OneDrive\Área de Trabalho\PROGRAMA\ProjetoLimpezaDePCRefatoracao.dll
+C:\Users\stude\OneDrive\Área de Trabalho\PROGRAMA\ProjetoLimpezaDePCRefatoracao.deps.json
+C:\Users\stude\OneDrive\Área de Trabalho\PROGRAMA\ProjetoLimpezaDePCRefatoracao.runtimeconfig.json
+C:\Users\stude\OneDrive\Área de Trabalho\PROGRAMA\ProjetoLimpezaDePCRefatoracao.pdb
+C:\Users\stude\OneDrive\Área de Trabalho\PROGRAMA\Microsoft.Extensions.Configuration.dll
+C:\Users\stude\OneDrive\Área de Trabalho\PROGRAMA\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\stude\OneDrive\Área de Trabalho\PROGRAMA\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\Users\stude\OneDrive\Área de Trabalho\PROGRAMA\Microsoft.Extensions.Configuration.Json.dll
+C:\Users\stude\OneDrive\Área de Trabalho\PROGRAMA\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\stude\OneDrive\Área de Trabalho\PROGRAMA\Microsoft.Extensions.FileProviders.Physical.dll
+C:\Users\stude\OneDrive\Área de Trabalho\PROGRAMA\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\Users\stude\OneDrive\Área de Trabalho\PROGRAMA\Microsoft.Extensions.Primitives.dll
+C:\Users\stude\OneDrive\Área de Trabalho\PROGRAMA\Newtonsoft.Json.dll
+C:\Users\stude\OneDrive\Área de Trabalho\PROGRAMA\System.Management.dll
+C:\Users\stude\OneDrive\Área de Trabalho\PROGRAMA\runtimes\win\lib\net8.0\System.Management.dll

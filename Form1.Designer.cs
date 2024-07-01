@@ -47,19 +47,7 @@
             tituloHeader.Name = "tituloHeader";
             tituloHeader.Size = new Size(366, 26);
             tituloHeader.TabIndex = 1;
-            tituloHeader.Text = "Selecione as opções que deseja executar";
-            // 
-            // LinkExcluirChavesCriadas
-            // 
-            LinkExcluirChavesCriadas.AutoSize = true;
-            LinkExcluirChavesCriadas.LinkColor = Color.FromArgb(192, 0, 0);
-            LinkExcluirChavesCriadas.Location = new Point(500, 28);
-            LinkExcluirChavesCriadas.Name = "LinkExcluirChavesCriadas";
-            LinkExcluirChavesCriadas.Size = new Size(137, 20);
-            LinkExcluirChavesCriadas.TabIndex = 0;
-            LinkExcluirChavesCriadas.TabStop = true;
-            LinkExcluirChavesCriadas.Text = "Excluir Chaves Criadas";
-            LinkExcluirChavesCriadas.LinkClicked += LinkExcluirChavesCriadas_LinkClicked;
+            tituloHeader.Text = "Selecione as opções que deseja executar";        
             // 
             // panelFooter
             // 

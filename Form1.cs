@@ -19,13 +19,12 @@ namespace ProjetoLimpezaDePCRefatoracao
         private static string CaminhoArquivoJson { get; set; } = @"C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\Configs\appConfig.json";
         private static string TextoJson { get; set; } = File.ReadAllText(CaminhoArquivoJson);
         private JObject JsonObj { get; set; } = JObject.Parse(TextoJson);
+
         public JanelaLimpezaPC()
         {
-            MetodosAuxiliares metodosAuxiliares = new MetodosAuxiliares();
             InitializeComponent();
             CriarPanelsBody();
-            btnVoltar.Enabled = false;
-            metodosAuxiliares.CriaPastaEArquivo();           
+            btnVoltar.Enabled = false;          
         }
 
         private void CriarPanelsBody()
@@ -76,11 +75,10 @@ namespace ProjetoLimpezaDePCRefatoracao
             {
                 TextosOpcoes = new Dictionary<string, string>()
             {
-                { JsonObj["checkBox1"]!.ToString(), "Serão excluídos apenas Arquivos temporários:\r\nPasta Temp do usuário\r\nPasta Download e Temp do Windows\r\nPasta Recent" },
-                { JsonObj["checkBox2"]!.ToString(), "Executa a Limpeza de Disco do Windows\r\nVocê pode executar:\r\nLimpeza de Disco Padrão - Funcionalidade mais básica de limpeza,\r\nLimpeza de Disco Personalizada - Abre a janela de Limpeza de Disco para que selecione os arquivos que deseja limpar manualmente\r\nÚltima Limpeza Personalizada realizada - Executa a Limpeza com as mesmas seleções escolhidas na última Limpeza de Disco Personalizada executada." },
-                { JsonObj["checkBox3"]!.ToString(), "Executa a Desfragmentação e Otimização em caso de HDD e Otimização em caso de SSD" },
-                { JsonObj["checkBox4"]!.ToString(), "Executa somente Otimização de Disco - recomendado para SSD" }
-                //{ JsonObj["checkBox5"]!.ToString(), "Executa Limpeza de Log do Windows - (INDISPONÍVEL)" }
+                { JsonObj["checkBox1"]!.ToString(), "Serão excluídos Arquivos temporários da:\r\n- Pasta Temp (usuário)\r\n- Pasta Download e Pasta Temp (Windows)\r\n- Pasta Recent" },
+                { JsonObj["checkBox2"]!.ToString(), "Executa a Limpeza de Disco do Windows\r\nLIMPEZA DE DISCO PADRÃO - Funcionalidade mais básica de limpeza,\r\nLIMPEZA DE DISCO PERSONALIZADA - Abre a janela de Limpeza de Disco para que selecione os arquivos que deseja limpar manualmente\r\nÚLTIMA LIMPEZA PERSONALIZADA REALIZADA - Executa a Limpeza com as mesmas seleções escolhidas na última Limpeza de Disco Personalizada executada." },
+                { JsonObj["checkBox3"]!.ToString(), "Executa a Desfragmentação e Otimização em caso de HDD e somente Otimização\nem caso de SSD. É um conjunto de técnicas e práticas destinadas a melhorar \no desempenho e a eficiência do sistema operacional Windows. Na desfragmentação\né feita a reorganização dos dados no disco rígido para melhorar o tempo \nde acesso e desempenho geral do sistema." },
+                { JsonObj["checkBox4"]!.ToString(), "Executa somente Otimização de Disco. É um conjunto de técnicas e práticas\n destinadas a melhorar o desempenho e a eficiência do sistema operacional\n Windows. " }                
             };
 
                 int posicaoOpcao = 0;
@@ -91,7 +89,7 @@ namespace ProjetoLimpezaDePCRefatoracao
                     Opcao opcaoCriada = PopularAdicionarOpcao(opcao.Key, opcao.Value, posicaoOpcao);
 
                     if (opcao.Key == JsonObj["checkBox2"].ToString())
-                    {
+                    {                
                         opcaoCriada.RadioButtons = subOpcoesRadiobuttons.RadioButtons;
                     }
                     OpcoesESubOpcoesCriadas.Add(opcaoCriada);
@@ -131,7 +129,7 @@ namespace ProjetoLimpezaDePCRefatoracao
                 Font = new Font(Font.FontFamily, 12)
             };
 
-            if (posicaoOpcao == 4)
+            if ( posicaoOpcao == 1)
             {
                 opcao.CheckBox.Enabled = false;
             }
@@ -246,12 +244,19 @@ namespace ProjetoLimpezaDePCRefatoracao
         }
 
         private void BtnContinuar_Click(object sender, EventArgs e)
-        {           
+        {
             HelperIdentificadorComponenteAtivo(true);
-            MetodosExecucao metodosExecucao = new();            
+            MetodosExecucao metodosExecucao = new();
 
-            if (Panel_2_Body.Enabled)
+            if (Panel_1_Body.Enabled)
+            {               
+                btnContinuar.Text = "Continuar";
+                btnVoltar.Visible = true;
+            }
+            else if (Panel_2_Body.Enabled)
             {
+                Panel_2_Body.Controls.Clear();
+                btnVoltar.Enabled = true;
                 MetodoCorrespondenteOpcoesSelecionadas.Clear();
                 for (int posicao = 0; posicao < OpcoesESubOpcoesCriadas.Count(); posicao++)
                 {
@@ -300,18 +305,20 @@ namespace ProjetoLimpezaDePCRefatoracao
                 ComecaCriacaoPanel_2_Body(MetodoCorrespondenteOpcoesSelecionadas);
             }
             else
-            {
-               ComecaCriacaoPanel_3_Body(MetodoCorrespondenteOpcoesSelecionadas);
+            {               
+                tituloHeader.Text = "Processando... Aguarde";
+                Application.DoEvents();
+                ComecaCriacaoPanel_3_Body(MetodoCorrespondenteOpcoesSelecionadas);
+                Application.DoEvents();
                 tituloHeader.Text = "Resumo da execução";
+                MetodoCorrespondenteOpcoesSelecionadas.Clear();
                 btnContinuar.Enabled = true;
             }
         }
 
         private void ComecaCriacaoPanel_2_Body(Dictionary<CheckBox, Func<string>> metodoCorrespondenteOpcoesSelecionadas)
         {
-            tituloHeader.Text = "O que você selecionou";
-            LinkExcluirChavesCriadas.Enabled = false;
-            LinkExcluirChavesCriadas.Visible = false;
+            tituloHeader.Text = "O que você selecionou";        
 
             int localizacaoY = 0;
             int cont = 0;
@@ -456,7 +463,7 @@ namespace ProjetoLimpezaDePCRefatoracao
         {
             List<Panel> panelsResultadoExecucao = new();
             int contador = 0;
-            int espacamento = 10;
+            int espacamento = 25;
             int localizacaoY = 0;
 
             foreach (var metodo in metodoCorrespondenteOpcoesSelecionadas)
@@ -480,8 +487,10 @@ namespace ProjetoLimpezaDePCRefatoracao
                 panelResultado.Controls.Add(resultadoExecucao);
 
                 localizacaoY += panelResultado.Height;
+                contador++;
             }
         }
+        
         private void BtnVoltar_Click(object sender, EventArgs e)
         {
             HelperIdentificadorComponenteAtivo(false);
@@ -506,16 +515,16 @@ namespace ProjetoLimpezaDePCRefatoracao
             {
                 if (isContinuar)
                 {
-                    tituloHeader.Text = "Processando... Aguarde";
                     Panel_2_Body.Visible = false;
                     Panel_2_Body.Enabled = false;
                     Panel_3_Body.Visible = true;
                     Panel_3_Body.Enabled = true;
                     btnContinuar.Text = "Finalizar";
                     btnContinuar.Enabled = false;
+
                     btnVoltar.Enabled = false;
                     btnVoltar.Visible = false;
-                   
+
                 }
                 else
                 {
@@ -531,14 +540,12 @@ namespace ProjetoLimpezaDePCRefatoracao
             }
             else if (Panel_3_Body.Enabled)
             {
-
+                Panel_3_Body.Visible = false;
+                Panel_3_Body.Enabled = false;
+                Panel_3_Body.Controls.Clear();
+                Panel_1_Body.Visible = true;
+                Panel_1_Body.Enabled = true;
             }
-        }
-
-        private void LinkExcluirChavesCriadas_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            MetodosAuxiliares metodosAuxiliares = new MetodosAuxiliares();
-            metodosAuxiliares.ApagaPasta_ChaveRegistro();
         }
     }
 }
