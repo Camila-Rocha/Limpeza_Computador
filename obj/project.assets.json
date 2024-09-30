@@ -61,11 +61,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\stude\\source\\repos\\Limpeza_Computador\\ProjetoLimpezaDePCRefatoracao\\Limpeza_Computador.csproj",
+      "projectUniqueName": "C:\\Users\\stude\\source\\repos\\Limpeza_Computador\\Limpeza_Computador\\Limpeza_Computador.csproj",
       "projectName": "Limpeza_Computador",
-      "projectPath": "C:\\Users\\stude\\source\\repos\\Limpeza_Computador\\ProjetoLimpezaDePCRefatoracao\\Limpeza_Computador.csproj",
+      "projectPath": "C:\\Users\\stude\\source\\repos\\Limpeza_Computador\\Limpeza_Computador\\Limpeza_Computador.csproj",
       "packagesPath": "C:\\Users\\stude\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\stude\\source\\repos\\Limpeza_Computador\\ProjetoLimpezaDePCRefatoracao\\obj\\",
+      "outputPath": "C:\\Users\\stude\\source\\repos\\Limpeza_Computador\\Limpeza_Computador\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

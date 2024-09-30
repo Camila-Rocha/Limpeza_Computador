@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Limpeza_Computador")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c12ab5e527c807f3a28b8a3d4414f3fa3ead11f7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+12b467fed520c8c47ae71938c2f38743ba3bde5c")]
 [assembly: System.Reflection.AssemblyProductAttribute("Limpeza_Computador")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Limpeza_Computador")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
