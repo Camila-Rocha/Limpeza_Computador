@@ -29,3 +29,48 @@ C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefa
 C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.pdb
 C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.genruntimeconfig.cache
 C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ref\ProjetoLimpezaDePCRefatoracao.dll
+C:\Users\stude\source\repos\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.Domain.ElementosDeOpcaoCheckbox.resources
+C:\Users\stude\OneDrive\Área de Trabalho\Limpeza_Computador\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.Properties.Resources.resources
+C:\Users\stude\OneDrive\Área de Trabalho\Limpeza_Computador\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.Domain.ElementosDeOpcaoCheckbox.resources
+C:\Users\stude\OneDrive\Área de Trabalho\Limpeza_Computador\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.JanelaLimpezaPC.resources
+C:\Users\stude\OneDrive\Área de Trabalho\Limpeza_Computador\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.csproj.GenerateResource.cache
+C:\Users\stude\OneDrive\Área de Trabalho\Limpeza_Computador\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\stude\OneDrive\Área de Trabalho\Limpeza_Computador\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.AssemblyInfoInputs.cache
+C:\Users\stude\OneDrive\Área de Trabalho\Limpeza_Computador\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.AssemblyInfo.cs
+C:\Users\stude\OneDrive\Área de Trabalho\Limpeza_Computador\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.csproj.CoreCompileInputs.cache
+C:\Users\stude\OneDrive\Área de Trabalho\Limpeza_Computador\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.sourcelink.json
+C:\Users\stude\OneDrive\Área de Trabalho\Limpeza_Computador\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.dll
+C:\Users\stude\OneDrive\Área de Trabalho\Limpeza_Computador\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\refint\ProjetoLimpezaDePCRefatoracao.dll
+C:\Users\stude\OneDrive\Área de Trabalho\Limpeza_Computador\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.pdb
+C:\Users\stude\OneDrive\Área de Trabalho\Limpeza_Computador\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\bin\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.exe
+C:\Users\stude\OneDrive\Área de Trabalho\Limpeza_Computador\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\bin\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.deps.json
+C:\Users\stude\OneDrive\Área de Trabalho\Limpeza_Computador\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\bin\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.runtimeconfig.json
+C:\Users\stude\OneDrive\Área de Trabalho\Limpeza_Computador\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\bin\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.dll
+C:\Users\stude\OneDrive\Área de Trabalho\Limpeza_Computador\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\bin\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.pdb
+C:\Users\stude\OneDrive\Área de Trabalho\Limpeza_Computador\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
+C:\Users\stude\OneDrive\Área de Trabalho\Limpeza_Computador\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.csproj.AssemblyReference.cache
+C:\Users\stude\OneDrive\Área de Trabalho\Limpeza_Computador\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoL.E4D69198.Up2Date
+C:\Users\stude\OneDrive\Área de Trabalho\Limpeza_Computador\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.genruntimeconfig.cache
+C:\Users\stude\OneDrive\Área de Trabalho\Limpeza_Computador\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ref\ProjetoLimpezaDePCRefatoracao.dll
+C:\Users\stude\OneDrive\Área de Trabalho\Cópia do projeto Limpeza de PC\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\bin\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.exe
+C:\Users\stude\OneDrive\Área de Trabalho\Cópia do projeto Limpeza de PC\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\bin\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.deps.json
+C:\Users\stude\OneDrive\Área de Trabalho\Cópia do projeto Limpeza de PC\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\bin\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.runtimeconfig.json
+C:\Users\stude\OneDrive\Área de Trabalho\Cópia do projeto Limpeza de PC\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\bin\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.dll
+C:\Users\stude\OneDrive\Área de Trabalho\Cópia do projeto Limpeza de PC\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\bin\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.pdb
+C:\Users\stude\OneDrive\Área de Trabalho\Cópia do projeto Limpeza de PC\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
+C:\Users\stude\OneDrive\Área de Trabalho\Cópia do projeto Limpeza de PC\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.csproj.AssemblyReference.cache
+C:\Users\stude\OneDrive\Área de Trabalho\Cópia do projeto Limpeza de PC\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.Properties.Resources.resources
+C:\Users\stude\OneDrive\Área de Trabalho\Cópia do projeto Limpeza de PC\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.Domain.ElementosDeOpcaoCheckbox.resources
+C:\Users\stude\OneDrive\Área de Trabalho\Cópia do projeto Limpeza de PC\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.JanelaLimpezaPC.resources
+C:\Users\stude\OneDrive\Área de Trabalho\Cópia do projeto Limpeza de PC\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.csproj.GenerateResource.cache
+C:\Users\stude\OneDrive\Área de Trabalho\Cópia do projeto Limpeza de PC\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\stude\OneDrive\Área de Trabalho\Cópia do projeto Limpeza de PC\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.AssemblyInfoInputs.cache
+C:\Users\stude\OneDrive\Área de Trabalho\Cópia do projeto Limpeza de PC\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.AssemblyInfo.cs
+C:\Users\stude\OneDrive\Área de Trabalho\Cópia do projeto Limpeza de PC\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.csproj.CoreCompileInputs.cache
+C:\Users\stude\OneDrive\Área de Trabalho\Cópia do projeto Limpeza de PC\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.sourcelink.json
+C:\Users\stude\OneDrive\Área de Trabalho\Cópia do projeto Limpeza de PC\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoL.E4D69198.Up2Date
+C:\Users\stude\OneDrive\Área de Trabalho\Cópia do projeto Limpeza de PC\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.dll
+C:\Users\stude\OneDrive\Área de Trabalho\Cópia do projeto Limpeza de PC\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\refint\ProjetoLimpezaDePCRefatoracao.dll
+C:\Users\stude\OneDrive\Área de Trabalho\Cópia do projeto Limpeza de PC\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.pdb
+C:\Users\stude\OneDrive\Área de Trabalho\Cópia do projeto Limpeza de PC\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ProjetoLimpezaDePCRefatoracao.genruntimeconfig.cache
+C:\Users\stude\OneDrive\Área de Trabalho\Cópia do projeto Limpeza de PC\ProjetoLimpezaDePCRefatoracao\ProjetoLimpezaDePCRefatoracao\obj\Debug\net8.0-windows\ref\ProjetoLimpezaDePCRefatoracao.dll

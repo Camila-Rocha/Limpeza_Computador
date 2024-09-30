@@ -7,11 +7,5 @@
 
   "checkBox4": "Otimização de Disco do Windows",
 
-  "checkBox5": "Limpeza de Log do Windows",
-
-  "radioButton1": "Limpeza Padrão",
-
-  "radioButton2": "Limpeza Personalizada",
-
-  "radioButton3": "Usar Última Limpeza Personalizada Realizada (Se houver)"
+  "checkBox5": "Limpeza de Log do Windows"
 }

@@ -1,4 +1,4 @@
-﻿namespace ProjetoLimpezaDePCRefatoracao
+﻿namespace Limpeza_Computador
 {
     partial class JanelaLimpezaPC
     {
@@ -30,11 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(JanelaLimpezaPC));
             tituloHeader = new Label();
-            LinkExcluirChavesCriadas = new LinkLabel();
             panelFooter = new Panel();
             btnVoltar = new Button();
             btnContinuar = new Button();
             panelHeader = new Panel();
+            panelBase = new Panel();
             panelFooter.SuspendLayout();
             panelHeader.SuspendLayout();
             SuspendLayout();
@@ -47,56 +47,69 @@
             tituloHeader.Name = "tituloHeader";
             tituloHeader.Size = new Size(366, 26);
             tituloHeader.TabIndex = 1;
-            tituloHeader.Text = "Selecione as opções que deseja executar";        
+            tituloHeader.Text = "Selecione as opções que deseja executar";
             // 
             // panelFooter
             // 
-            panelFooter.BackColor = SystemColors.Menu;
+            panelFooter.BackColor = Color.AliceBlue;
             panelFooter.Controls.Add(btnVoltar);
             panelFooter.Controls.Add(btnContinuar);
-            panelFooter.Location = new Point(1, 622);
+            panelFooter.Location = new Point(15, 612);
             panelFooter.Name = "panelFooter";
-            panelFooter.Size = new Size(680, 79);
+            panelFooter.Size = new Size(652, 79);
             panelFooter.TabIndex = 4;
             // 
             // btnVoltar
             // 
+            btnVoltar.BackColor = Color.White;
             btnVoltar.Location = new Point(41, 18);
             btnVoltar.Name = "btnVoltar";
             btnVoltar.Size = new Size(115, 40);
             btnVoltar.TabIndex = 1;
             btnVoltar.Text = "Voltar";
-            btnVoltar.UseVisualStyleBackColor = true;
+            btnVoltar.UseVisualStyleBackColor = false;
             btnVoltar.Click += BtnVoltar_Click;
             // 
             // btnContinuar
             // 
+            btnContinuar.BackColor = Color.White;
             btnContinuar.Enabled = false;
             btnContinuar.Location = new Point(522, 18);
             btnContinuar.Name = "btnContinuar";
             btnContinuar.Size = new Size(115, 40);
             btnContinuar.TabIndex = 0;
             btnContinuar.Text = "Continuar";
-            btnContinuar.UseVisualStyleBackColor = true;
+            btnContinuar.UseVisualStyleBackColor = false;
             btnContinuar.Click += BtnContinuar_Click;
             // 
             // panelHeader
             // 
-            panelHeader.BackColor = SystemColors.Menu;
+            panelHeader.BackColor = Color.AliceBlue;
             panelHeader.Controls.Add(tituloHeader);
-            panelHeader.Controls.Add(LinkExcluirChavesCriadas);
-            panelHeader.Location = new Point(1, 2);
+            panelHeader.Location = new Point(15, 14);
             panelHeader.Name = "panelHeader";
-            panelHeader.Size = new Size(680, 73);
+            panelHeader.Size = new Size(655, 73);
             panelHeader.TabIndex = 3;
+            panelHeader.Paint += panelHeader_Paint;
+            // 
+            // panelBase
+            // 
+            panelBase.BackColor = Color.Lavender;
+            panelBase.BorderStyle = BorderStyle.FixedSingle;
+            panelBase.Location = new Point(12, 12);
+            panelBase.Name = "panelBase";
+            panelBase.Size = new Size(659, 680);
+            panelBase.TabIndex = 5;
             // 
             // JanelaLimpezaPC
             // 
             AutoScaleMode = AutoScaleMode.None;
+            BackColor = Color.Lavender;
             BackgroundImageLayout = ImageLayout.Center;
             ClientSize = new Size(682, 703);
             Controls.Add(panelFooter);
             Controls.Add(panelHeader);
+            Controls.Add(panelBase);
             Font = new Font("Arial Narrow", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             FormBorderStyle = FormBorderStyle.Fixed3D;
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -113,10 +126,10 @@
         #endregion
 
         private Label tituloHeader;
-        private LinkLabel LinkExcluirChavesCriadas;
         private Panel panelFooter;
         private Button btnVoltar;
         private Button btnContinuar;
         private Panel panelHeader;
+        private Panel panelBase;
     }
 }

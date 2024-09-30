@@ -1,4 +1,4 @@
-namespace ProjetoLimpezaDePCRefatoracao
+namespace Limpeza_Computador
 {
     internal static class Program
     {
